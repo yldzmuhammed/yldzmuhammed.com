@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,22 +7,37 @@
   <meta name="description" content="Most people think IoT is just connecting a sensor to the internet. It's not. Here's the real picture: why wireless communication has physics, tradeoffs, and structure baked in." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #0a0a0a;
-      --bg-card: #111111;
-      --border: #222222;
-      --border-hover: #333333;
-      --text-primary: #e8e8e8;
-      --text-secondary: #888888;
-      --text-muted: #555555;
-      --accent: #4ade80;
-      --accent-dim: rgba(74, 222, 128, 0.08);
-      --font-mono: 'JetBrains Mono', monospace;
-      --font-sans: 'Inter', sans-serif;
+      --bg: #F5F2ED;
+      --bg-card: #FDFCFA;
+      --bg-hover: #EDEAE3;
+      --border: #DDD9D2;
+      --border-hover: #C8C4BC;
+      --text-primary: #1A1814;
+      --text-secondary: #6B6760;
+      --text-muted: #B0ADA8;
+      --accent: #C4531A;
+      --accent-dim: rgba(196, 83, 26, 0.08);
+      --font-mono: 'DM Mono', monospace;
+      --font-sans: 'DM Sans', sans-serif;
+      --font-serif: 'DM Serif Display', serif;
+    }
+
+    [data-theme="dark"] {
+      --bg: #141210;
+      --bg-card: #1C1A17;
+      --bg-hover: #222018;
+      --border: #2A2724;
+      --border-hover: #3A3734;
+      --text-primary: #E8E4DE;
+      --text-secondary: #9C9890;
+      --text-muted: #5A5754;
+      --accent: #D4673A;
+      --accent-dim: rgba(212, 103, 58, 0.1);
     }
 
     html { background: var(--bg); color: var(--text-primary); font-family: var(--font-sans); }
@@ -307,9 +322,30 @@
       .article-title { font-size: 22px; }
       .linkedin-banner { flex-direction: column; align-items: flex-start; }
     }
+
+    .topbar { position: fixed; top: 16px; right: 20px; z-index: 200; display: flex; align-items: center; gap: 6px; }
+    .topbar-btn { display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-card); color: var(--text-secondary); text-decoration: none; cursor: pointer; transition: all 0.15s; }
+    .topbar-btn:hover { border-color: var(--border-hover); color: var(--text-primary); background: var(--bg-hover); }
+    .topbar-btn svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .topbar-theme { font-family: var(--font-mono); font-size: 11px; width: auto; padding: 0 12px; gap: 6px; letter-spacing: 0.04em; }
   </style>
 </head>
 <body>
+  <div class="topbar">
+    <button class="topbar-btn topbar-theme" onclick="toggleTheme()">
+      <span id="themeIcon">◑</span>
+      <span id="themeLabel" style="margin-left:4px">dark</span>
+    </button>
+    <a class="topbar-btn" href="https://github.com/yldzmuhammed" target="_blank" title="GitHub">
+      <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" stroke="currentColor" fill="none"/></svg>
+    </a>
+    <a class="topbar-btn" href="https://linkedin.com/in/yldzmuhammed" target="_blank" title="LinkedIn">
+      <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+    </a>
+    <a class="topbar-btn" href="mailto:yldzmuhammed@gmail.com" title="Email">
+      <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    </a>
+  </div>
 
   <nav>
     <a href="https://yldzmuhammed.com" class="nav-logo">muhammet<span>.</span>yildiz</a>
@@ -361,7 +397,7 @@
 
     <div style="margin: 40px 0; border: 1px solid #1e1e1e; border-radius: 12px; overflow: hidden; background: #0f0f0f;">
       <div style="padding: 14px 20px; border-bottom: 1px solid #1a1a1a;">
-        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #4ade80;">Both concepts, visualized</span>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #C4531A;">Both concepts, visualized</span>
       </div>
       <div style="padding: 28px 24px;">
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
@@ -395,19 +431,19 @@
               <path d="M88 52 Q166 70 88 88" fill="none" stroke="#f97316" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/>
               <path d="M94 46 Q188 70 94 94" fill="none" stroke="#f97316" stroke-width="1.5" stroke-linecap="round" opacity="0.15"/>
               <rect x="176" y="14" width="48" height="11" rx="2" fill="none" stroke="#555" stroke-width="1"/>
-              <rect x="178" y="16" width="16" height="7" rx="1" fill="#4ade80"/>
+              <rect x="178" y="16" width="16" height="7" rx="1" fill="#C4531A"/>
               <rect x="223" y="18" width="3" height="5" rx="1" fill="#555"/>
               <rect x="396" y="14" width="48" height="11" rx="2" fill="none" stroke="#555" stroke-width="1"/>
               <rect x="398" y="16" width="4" height="7" rx="1" fill="#ef4444"/>
               <rect x="443" y="18" width="3" height="5" rx="1" fill="#555"/>
-              <text x="200" y="11" text-anchor="middle" fill="#4ade80" font-family="JetBrains Mono,monospace" font-size="9">ok</text>
+              <text x="200" y="11" text-anchor="middle" fill="#C4531A" font-family="JetBrains Mono,monospace" font-size="9">ok</text>
               <text x="420" y="11" text-anchor="middle" fill="#ef4444" font-family="JetBrains Mono,monospace" font-size="9">draining</text>
               <line x1="60" y1="172" x2="200" y2="172" stroke="#2a2a2a" stroke-width="1" stroke-dasharray="3 3"/>
               <line x1="60" y1="172" x2="420" y2="172" stroke="#2a2a2a" stroke-width="1" stroke-dasharray="3 3" opacity="0.5"/>
               <text x="130" y="168" text-anchor="middle" fill="#444" font-family="JetBrains Mono,monospace" font-size="9">close</text>
               <text x="240" y="168" text-anchor="middle" fill="#333" font-family="JetBrains Mono,monospace" font-size="9">far</text>
             </svg>
-            <p style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #555; margin-top: 14px; line-height: 1.6;">The further the device transmits, <span style="color: #4ade80;">the more energy it burns.</span></p>
+            <p style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #555; margin-top: 14px; line-height: 1.6;">The further the device transmits, <span style="color: #C4531A;">the more energy it burns.</span></p>
           </div>
 
           <!-- Panel 2: Interference -->
@@ -437,7 +473,7 @@
               <text x="240" y="72" text-anchor="middle" fill="#ef4444" font-family="JetBrains Mono,monospace" font-size="9" opacity="0.8">collision</text>
               <text x="240" y="86" text-anchor="middle" fill="#ef4444" font-family="JetBrains Mono,monospace" font-size="8" opacity="0.5">data lost</text>
             </svg>
-            <p style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #555; margin-top: 14px; line-height: 1.6;"><span style="color: #4ade80;">Protocol structure</span> decides who talks when, so data doesn't collide.</p>
+            <p style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #555; margin-top: 14px; line-height: 1.6;"><span style="color: #C4531A;">Protocol structure</span> decides who talks when, so data doesn't collide.</p>
           </div>
 
         </div>
@@ -496,5 +532,20 @@
     <a href="#">What makes an IoT product production-ready? — coming Mar 26, 2026</a>
   </div>
 
+  <script>
+    const html = document.documentElement;
+    const icon = document.getElementById('themeIcon');
+    const label = document.getElementById('themeLabel');
+    function applyTheme(theme) {
+      html.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      icon.textContent = theme === 'dark' ? '○' : '◑';
+      label.textContent = theme === 'dark' ? 'light' : 'dark';
+    }
+    function toggleTheme() { applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); }
+    const saved = localStorage.getItem('theme');
+    if (saved) { applyTheme(saved); }
+    else if (window.matchMedia('(prefers-color-scheme: dark)').matches) { applyTheme('dark'); }
+  </script>
 </body>
 </html>

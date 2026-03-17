@@ -1,280 +1,140 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Muhammet Yildiz — Writing</title>
-  <meta name="description" content="Technical writing on IoT, embedded systems, wireless protocols, PCB design, and building Ameza." />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Muhammet Yildiz — Embedded Systems Engineer</title>
+  <meta name="description" content="Principal Embedded Systems Engineer. 15+ years shipping hardware and firmware. Founder of Ameza."/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/main.css"/>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    .hero { padding: 96px 0 80px; }
+    .hero-eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
+    .hero-headline { font-family: var(--serif); font-size: clamp(40px, 5vw, 64px); line-height: 1.1; color: var(--ink); letter-spacing: -0.02em; margin-bottom: 24px; max-width: 720px; animation: fadeUp 0.6s ease both; }
+    .hero-headline em { font-style: italic; color: var(--accent); }
+    .hero-body { font-size: 16px; color: var(--ink2); line-height: 1.75; font-weight: 300; max-width: 520px; margin-bottom: 36px; animation: fadeUp 0.6s 0.1s ease both; }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; animation: fadeUp 0.6s 0.2s ease both; }
 
-    :root {
-      --bg: #0a0a0a;
-      --bg-card: #111111;
-      --bg-hover: #161616;
-      --border: #222222;
-      --border-hover: #333333;
-      --text-primary: #e8e8e8;
-      --text-secondary: #888888;
-      --text-muted: #555555;
-      --accent: #4ade80;
-      --accent-dim: rgba(74, 222, 128, 0.1);
-      --font-mono: 'JetBrains Mono', monospace;
-      --font-sans: 'Inter', sans-serif;
-    }
+    .hero-stats { display: flex; gap: 40px; margin-top: 56px; padding-top: 40px; border-top: 1px solid var(--border); animation: fadeUp 0.6s 0.3s ease both; }
+    .hero-stat-num { font-family: var(--serif); font-size: 28px; color: var(--ink); line-height: 1; margin-bottom: 4px; }
+    .hero-stat-label { font-family: var(--mono); font-size: 10px; color: var(--ink3); letter-spacing: 0.05em; }
 
-    html { background: var(--bg); color: var(--text-primary); font-family: var(--font-sans); }
+    .posts-section { padding: 80px 0; }
+    .posts-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 40px; }
+    .posts-header .section-label { margin-bottom: 0; flex: 1; }
+    .see-all { font-family: var(--mono); font-size: 11px; color: var(--ink2); text-decoration: none; letter-spacing: 0.04em; transition: color 0.15s; white-space: nowrap; margin-left: 16px; }
+    .see-all:hover { color: var(--accent); }
 
-    body {
-      min-height: 100vh;
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-
-    /* NAV */
-    nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 32px 0 48px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 56px;
-    }
-
-    .nav-logo {
-      font-family: var(--font-mono);
-      font-size: 13px;
-      color: var(--text-secondary);
-      text-decoration: none;
-      letter-spacing: 0.02em;
-    }
-
-    .nav-logo span { color: var(--accent); }
-
-    .nav-links { display: flex; gap: 24px; }
-    .nav-links a {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      color: var(--text-muted);
-      text-decoration: none;
-      letter-spacing: 0.05em;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--text-primary); }
-
-    /* HEADER */
-    .page-header { margin-bottom: 56px; }
-    .page-header h1 {
-      font-family: var(--font-mono);
-      font-size: 22px;
-      font-weight: 500;
-      color: var(--text-primary);
-      margin-bottom: 12px;
-      letter-spacing: -0.01em;
-    }
-    .page-header p {
-      font-size: 15px;
-      color: var(--text-secondary);
-      line-height: 1.6;
-      font-weight: 300;
-    }
-
-    /* SERIES FILTER */
-    .filters {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 40px;
-    }
-
-    .filter-btn {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      padding: 5px 12px;
-      border-radius: 3px;
-      border: 1px solid var(--border);
-      background: transparent;
-      color: var(--text-muted);
-      cursor: pointer;
-      letter-spacing: 0.04em;
-      transition: all 0.15s;
-    }
-    .filter-btn:hover, .filter-btn.active {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: var(--accent-dim);
-    }
-
-    /* POST LIST */
-    .post-list { display: flex; flex-direction: column; gap: 2px; }
-
-    .post-item {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      align-items: start;
-      gap: 16px;
-      padding: 20px 0;
-      border-bottom: 1px solid var(--border);
-      text-decoration: none;
-      transition: all 0.15s;
-      cursor: pointer;
-    }
-
-    .post-item:first-child { border-top: 1px solid var(--border); }
-
-    .post-item:hover { padding-left: 8px; }
-
-    .post-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
-
-    .post-series {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      letter-spacing: 0.08em;
-      color: var(--accent);
-      text-transform: uppercase;
-    }
-
-    .post-divider {
-      width: 1px;
-      height: 10px;
-      background: var(--border-hover);
-    }
-
-    .post-platform {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--text-muted);
-      letter-spacing: 0.05em;
-    }
-
-    .post-title {
-      font-size: 15px;
-      font-weight: 400;
-      color: var(--text-primary);
-      line-height: 1.4;
-      margin-bottom: 6px;
-      transition: color 0.15s;
-    }
-    .post-item:hover .post-title { color: var(--accent); }
-
-    .post-excerpt {
-      font-size: 13px;
-      color: var(--text-secondary);
-      line-height: 1.5;
-      font-weight: 300;
-    }
-
-    .post-date {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--text-muted);
-      white-space: nowrap;
-      margin-top: 4px;
-    }
-
-    /* FOOTER */
-    footer {
-      padding: 48px 0 32px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-top: 1px solid var(--border);
-      margin-top: 80px;
-    }
-
-    footer p {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-
-    .footer-links { display: flex; gap: 20px; }
-    .footer-links a {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--text-muted);
-      text-decoration: none;
-      transition: color 0.15s;
-    }
-    .footer-links a:hover { color: var(--text-primary); }
-
-    @media (max-width: 600px) {
-      .post-item { grid-template-columns: 1fr; }
-      .post-date { display: none; }
-      footer { flex-direction: column; gap: 16px; align-items: flex-start; }
-    }
+    .ameza-strip { background: var(--accent-light); border-top: 1px solid var(--accent-border); border-bottom: 1px solid var(--accent-border); padding: 32px 0; margin: 0; }
+    .ameza-strip-inner { display: flex; align-items: center; justify-content: space-between; gap: 32px; }
+    .ameza-strip-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+    .ameza-strip-title { font-family: var(--serif); font-size: 20px; color: var(--ink); margin-bottom: 6px; }
+    .ameza-strip-desc { font-size: 13px; color: var(--ink2); font-weight: 300; max-width: 480px; line-height: 1.6; }
+    .ameza-strip-action { flex-shrink: 0; }
   </style>
 </head>
 <body>
-
-  <nav>
-    <a href="https://yldzmuhammed.com" class="nav-logo">muhammet<span>.</span>yildiz</a>
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">Muhammet Yildiz</a>
     <div class="nav-links">
-      <a href="https://yldzmuhammed.com/#skills">skills</a>
-      <a href="https://yldzmuhammed.com/#experience">experience</a>
-      <a href="https://yldzmuhammed.com/#contact">contact</a>
-      <a href="https://linkedin.com/in/yldzmuhammed" target="_blank">linkedin</a>
+      <a href="index.html" class="active">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="writing.html">Writing</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-actions">
+      <button class="nav-btn nav-theme" onclick="toggleTheme()"><span id="themeIcon">◑</span><span id="themeLabel" style="margin-left:4px">dark</span></button>
+      <a class="nav-btn" href="https://github.com/yldzmuhammed" target="_blank"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" stroke="currentColor" fill="none"/></svg></a>
+      <a class="nav-btn" href="https://linkedin.com/in/yldzmuhammed" target="_blank"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+      <a class="nav-btn" href="mailto:yldzmuhammed@gmail.com"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
     </div>
   </nav>
 
-  <div class="page-header">
-    <h1>writing</h1>
-    <p>Technical posts on IoT, wireless protocols, PCB design, firmware, and building Ameza. Written for engineers who want the real picture, not the spec sheet summary.</p>
-  </div>
-
-  <div class="filters">
-    <button class="filter-btn active" onclick="filterPosts('all', this)">all</button>
-    <button class="filter-btn" onclick="filterPosts('iot-fundamentals', this)">iot fundamentals</button>
-    <button class="filter-btn" onclick="filterPosts('lorawan', this)">lorawan</button>
-    <button class="filter-btn" onclick="filterPosts('ble', this)">ble</button>
-    <button class="filter-btn" onclick="filterPosts('ameza', this)">ameza</button>
-    <button class="filter-btn" onclick="filterPosts('opinion', this)">opinion</button>
-  </div>
-
-  <div class="post-list" id="postList">
-
-    <a class="post-item" href="posts/what-is-iot.html" data-series="iot-fundamentals">
-      <div>
-        <div class="post-meta">
-          <span class="post-series">IoT Fundamentals</span>
-          <div class="post-divider"></div>
-          <span class="post-platform">also on linkedin</span>
+  <div class="page">
+    <div class="container">
+      <div class="hero">
+        <div class="hero-eyebrow">Principal Embedded Systems Engineer · Austin, TX</div>
+        <h1 class="hero-headline">From schematic<br>to <em>shipped.</em></h1>
+        <p class="hero-body">I design the PCB, write the firmware, and connect it to the cloud. 30+ products across IoT, industrial, healthcare, and rail.</p>
+        <div class="hero-actions">
+          <a href="about.html" class="btn-primary">About me</a>
+          <a href="contact.html" class="btn-secondary">Get in touch</a>
+          <a href="writing.html" class="btn-secondary">Read my writing</a>
         </div>
-        <div class="post-title">What is IoT really? It's not just connecting a sensor to the internet.</div>
-        <div class="post-excerpt">Most people treat wireless communication like a casual conversation. But distance costs energy, bandwidth is shared, and structure is what makes any of it reliable. Here's the real picture.</div>
+        <div class="hero-stats">
+          <div><div class="hero-stat-num">15+</div><div class="hero-stat-label">Years experience</div></div>
+          <div><div class="hero-stat-num">30+</div><div class="hero-stat-label">Products shipped</div></div>
+          <div><div class="hero-stat-num">8</div><div class="hero-stat-label">Companies</div></div>
+        </div>
       </div>
-      <div class="post-date">Mar 18, 2026</div>
-    </a>
-
-  </div>
-
-  <footer>
-    <p>© 2026 Muhammet Yildiz</p>
-    <div class="footer-links">
-      <a href="https://yldzmuhammed.com">website</a>
-      <a href="https://linkedin.com/in/yldzmuhammed" target="_blank">linkedin</a>
-      <a href="https://github.com/yldzmuhammed" target="_blank">github</a>
-      <a href="mailto:yldzmuhammed@gmail.com">email</a>
     </div>
-  </footer>
+
+    <div class="ameza-strip">
+      <div class="container">
+        <div class="ameza-strip-inner">
+          <div>
+            <div class="ameza-strip-label">Founder</div>
+            <div class="ameza-strip-title">Building Ameza</div>
+            <p class="ameza-strip-desc">A smart retail platform helping independent retailers unify pricing, inventory, and POS with AI-driven tools. 50+ retail partners, $2.5M+ payments processed.</p>
+          </div>
+          <div class="ameza-strip-action">
+            <a href="https://amezasolutions.com" target="_blank" class="btn-primary">Visit Ameza</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="posts-section">
+        <div class="posts-header">
+          <div class="section-label">Latest writing</div>
+          <a href="writing.html" class="see-all">see all posts →</a>
+        </div>
+
+        <a class="post-item" href="posts/what-is-iot.html">
+          <div>
+            <div class="post-meta">
+              <span class="post-series">IoT Fundamentals</span>
+              <div class="post-divider"></div>
+              <span class="post-platform">also on linkedin</span>
+            </div>
+            <div class="post-title">What is IoT really? It's not just connecting a sensor to the internet.</div>
+            <div class="post-excerpt">Most people treat wireless communication like a casual conversation. But distance costs energy, bandwidth is shared, and structure is what makes any of it reliable.</div>
+          </div>
+          <div class="post-date">Mar 18, 2026</div>
+        </a>
+
+      </div>
+    </div>
+
+    <footer class="footer">
+      <p>© 2026 Muhammet Yildiz</p>
+      <div class="footer-links">
+        <a href="about.html">About</a>
+        <a href="writing.html">Writing</a>
+        <a href="projects.html">Projects</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </footer>
+  </div>
 
   <script>
-    function filterPosts(series, btn) {
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      document.querySelectorAll('.post-item').forEach(item => {
-        if (series === 'all' || item.dataset.series === series) {
-          item.style.display = 'grid';
-        } else {
-          item.style.display = 'none';
-        }
-      });
+    const html = document.documentElement;
+    const icon = document.getElementById('themeIcon');
+    const label = document.getElementById('themeLabel');
+    function applyTheme(theme) {
+      html.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      icon.textContent = theme === 'dark' ? '○' : '◑';
+      label.textContent = theme === 'dark' ? 'light' : 'dark';
     }
+    function toggleTheme() { applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); }
+    const saved = localStorage.getItem('theme');
+    if (saved) { applyTheme(saved); }
+    else if (window.matchMedia('(prefers-color-scheme: dark)').matches) { applyTheme('dark'); }
   </script>
-
 </body>
 </html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Full Custom Smartwatch -- Muhammet Yildiz</title>
+  <meta name="description" content="Custom smartwatch built from scratch on nRF52 and DA1470x platforms covering hardware, firmware, and PCB."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/main.css"/>
+  <style>
+    .project-hero { padding: 64px 0 48px; border-bottom: 1px solid var(--border); margin-bottom: 56px; }
+    .project-back { font-family: var(--mono); font-size: 11px; color: var(--ink3); text-decoration: none; letter-spacing: 0.04em; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 32px; transition: color 0.15s; }
+    .project-back:hover { color: var(--ink); }
+    .project-num { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 12px; }
+    .project-title { font-family: var(--serif); font-size: clamp(28px, 4vw, 44px); color: var(--ink); letter-spacing: -0.02em; margin-bottom: 16px; line-height: 1.15; }
+    .project-summary { font-size: 16px; color: var(--ink2); font-weight: 300; line-height: 1.7; max-width: 560px; margin-bottom: 28px; }
+    .project-tag-list { display: flex; flex-wrap: wrap; gap: 7px; }
+    .project-tag-item { font-family: var(--mono); font-size: 11px; color: var(--ink2); background: var(--bg-card); border: 1px solid var(--border); padding: 5px 12px; border-radius: 3px; }
+    .project-body { max-width: 680px; }
+    .project-section { margin-bottom: 48px; }
+    .project-section h2 { font-family: var(--serif); font-size: 22px; color: var(--ink); margin-bottom: 14px; }
+    .project-section p { font-size: 15px; color: var(--ink2); line-height: 1.8; font-weight: 300; }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="../index.html" class="nav-logo">Muhammet Yildiz</a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../about.html">About</a>
+      <a href="../projects.html" class="active">Projects</a>
+      <a href="../writing.html">Writing</a>
+      <a href="../contact.html">Contact</a>
+    </div>
+    <div class="nav-actions">
+      <button class="nav-btn nav-theme" onclick="toggleTheme()"><span id="themeIcon">◑</span><span id="themeLabel" style="margin-left:4px">dark</span></button>
+      <a class="nav-btn" href="https://github.com/yldzmuhammed" target="_blank"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" stroke="currentColor" fill="none"/></svg></a>
+      <a class="nav-btn" href="https://linkedin.com/in/yldzmuhammed" target="_blank"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+      <a class="nav-btn" href="mailto:yldzmuhammed@gmail.com"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+    </div>
+  </nav>
+  <div class="page">
+    <div class="container">
+      <div class="project-hero">
+        <a class="project-back" href="../projects.html">back to projects</a>
+        <div class="project-num">06 / Hobby Project</div>
+        <h1 class="project-title">Full Custom Smartwatch</h1>
+        <p class="project-summary">Custom smartwatch built from scratch on nRF52 and DA1470x platforms covering hardware, firmware, and PCB.</p>
+        <div class="project-tag-list"><span class="project-tag-item">nRF52</span><span class="project-tag-item">DA1470x</span><span class="project-tag-item">C/C++</span><span class="project-tag-item">Altium Designer</span><span class="project-tag-item">BLE</span><span class="project-tag-item">TFT Display</span></div>
+      </div>
+      <div class="project-body">
+        <div class="project-section">
+          <h2>Overview</h2>
+          <p>A hobby project: building a fully custom smartwatch from the ground up, covering everything from PCB layout to firmware. Two hardware iterations were built, one on nRF52 and one on the Dialog DA1470x platform.</p>
+        </div>
+        <div class="project-section">
+          <h2>Hardware</h2>
+          <p>Both versions designed entirely in Altium Designer. Compact multilayer PCB fitting into a watch form factor. TFT display integrated with custom connector layout. Environmental sensors added for health tracking. Battery management circuit designed for wearable power profile.</p>
+        </div>
+        <div class="project-section">
+          <h2>nRF52 Version</h2>
+          <p>First iteration built on nRF52, chosen for its strong BLE stack and low power profile. Firmware written in C with FreeRTOS. BLE used for phone pairing and data sync. Display driver written from scratch for the target TFT controller.</p>
+        </div>
+        <div class="project-section">
+          <h2>DA1470x Version</h2>
+          <p>Second iteration on Dialog DA1470x, which offers more processing headroom and richer peripheral set for a smartwatch application. C/C++ firmware with improved power management and additional sensor support.</p>
+        </div>
+        <div class="project-section">
+          <h2>What I Learned</h2>
+          <p>Building a smartwatch forces you to solve problems you do not encounter on industrial hardware: extremely tight PCB constraints, wearable-grade power budgets, display performance on a small MCU, and the full software stack from sensor drivers to UI rendering. A rewarding project that sharpened skills across every layer of the stack.</p>
+        </div>
+      </div>
+      <footer class="footer" style="padding: 32px 0; margin-top: 40px;">
+        <p>2026 Muhammet Yildiz</p>
+        <div class="footer-links">
+          <a href="../projects.html">All projects</a>
+          <a href="../about.html">About</a>
+          <a href="../contact.html">Contact</a>
+        </div>
+      </footer>
+    </div>
+  </div>
+  <script>
+    const html = document.documentElement;
+    const icon = document.getElementById('themeIcon');
+    const label = document.getElementById('themeLabel');
+    function applyTheme(theme) {
+      html.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      icon.textContent = theme === 'dark' ? "○" : "◑";
+      label.textContent = theme === 'dark' ? 'light' : 'dark';
+    }
+    function toggleTheme() { applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); }
+    const saved = localStorage.getItem('theme');
+    if (saved) { applyTheme(saved); }
+    else if (window.matchMedia('(prefers-color-scheme: dark)').matches) { applyTheme('dark'); }
+  </script>
+</body>
+</html>

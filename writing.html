@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Writing — Muhammet Yildiz</title>
+  <meta name="description" content="Technical writing on IoT, wireless protocols, PCB design, firmware, and building Ameza."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/main.css"/>
+  <style>
+    .writing-header { padding: 64px 0 48px; }
+    .writing-header h1 { font-family: var(--serif); font-size: 40px; color: var(--ink); letter-spacing: -0.02em; margin-bottom: 12px; }
+    .writing-header p { font-size: 15px; color: var(--ink2); font-weight: 300; line-height: 1.6; max-width: 520px; }
+
+    .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 40px; }
+    .filter-btn { font-family: var(--mono); font-size: 11px; padding: 5px 12px; border-radius: 3px; border: 1px solid var(--border); background: transparent; color: var(--ink3); cursor: pointer; letter-spacing: 0.04em; transition: all 0.15s; }
+    .filter-btn:hover, .filter-btn.active { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">Muhammet Yildiz</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="writing.html" class="active">Writing</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-actions">
+      <button class="nav-btn nav-theme" onclick="toggleTheme()"><span id="themeIcon">◑</span><span id="themeLabel" style="margin-left:4px">dark</span></button>
+      <a class="nav-btn" href="https://github.com/yldzmuhammed" target="_blank"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" stroke="currentColor" fill="none"/></svg></a>
+      <a class="nav-btn" href="https://linkedin.com/in/yldzmuhammed" target="_blank"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+      <a class="nav-btn" href="mailto:yldzmuhammed@gmail.com"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+    </div>
+  </nav>
+
+  <div class="page">
+    <div class="container-narrow">
+      <div class="writing-header">
+        <h1>Writing</h1>
+        <p>Technical posts on IoT, wireless protocols, PCB design, firmware, and building Ameza. Written for engineers who want the real picture.</p>
+      </div>
+
+      <div class="filters">
+        <button class="filter-btn active" onclick="filterPosts('all', this)">all</button>
+        <button class="filter-btn" onclick="filterPosts('iot-fundamentals', this)">iot fundamentals</button>
+        <button class="filter-btn" onclick="filterPosts('lorawan', this)">lorawan</button>
+        <button class="filter-btn" onclick="filterPosts('ble', this)">ble</button>
+        <button class="filter-btn" onclick="filterPosts('ameza', this)">ameza</button>
+        <button class="filter-btn" onclick="filterPosts('opinion', this)">opinion</button>
+      </div>
+
+      <div id="postList">
+        <a class="post-item" href="posts/what-is-iot.html" data-series="iot-fundamentals">
+          <div>
+            <div class="post-meta">
+              <span class="post-series">IoT Fundamentals</span>
+              <div class="post-divider"></div>
+              <span class="post-platform">also on linkedin</span>
+            </div>
+            <div class="post-title">What is IoT really? It's not just connecting a sensor to the internet.</div>
+            <div class="post-excerpt">Most people treat wireless communication like a casual conversation. But distance costs energy, bandwidth is shared, and structure is what makes any of it reliable.</div>
+          </div>
+          <div class="post-date">Mar 18, 2026</div>
+        </a>
+      </div>
+
+      <footer class="footer" style="padding: 32px 0; margin-top: 40px;">
+        <p>© 2026 Muhammet Yildiz</p>
+        <div class="footer-links">
+          <a href="about.html">About</a>
+          <a href="projects.html">Projects</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    function filterPosts(series, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.post-item').forEach(item => {
+        item.style.display = (series === 'all' || item.dataset.series === series) ? 'grid' : 'none';
+      });
+    }
+    const html = document.documentElement;
+    const icon = document.getElementById('themeIcon');
+    const label = document.getElementById('themeLabel');
+    function applyTheme(theme) {
+      html.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      icon.textContent = theme === 'dark' ? '○' : '◑';
+      label.textContent = theme === 'dark' ? 'light' : 'dark';
+    }
+    function toggleTheme() { applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); }
+    const saved = localStorage.getItem('theme');
+    if (saved) { applyTheme(saved); }
+    else if (window.matchMedia('(prefers-color-scheme: dark)').matches) { applyTheme('dark'); }
+  </script>
+</body>
+</html>
