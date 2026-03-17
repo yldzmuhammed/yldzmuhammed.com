@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Muhammet Yildiz — Writing</title>
+  <meta name="description" content="Technical writing on IoT, embedded systems, wireless protocols, PCB design, and building Ameza." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0a;
+      --bg-card: #111111;
+      --bg-hover: #161616;
+      --border: #222222;
+      --border-hover: #333333;
+      --text-primary: #e8e8e8;
+      --text-secondary: #888888;
+      --text-muted: #555555;
+      --accent: #4ade80;
+      --accent-dim: rgba(74, 222, 128, 0.1);
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-sans: 'Inter', sans-serif;
+    }
+
+    html { background: var(--bg); color: var(--text-primary); font-family: var(--font-sans); }
+
+    body {
+      min-height: 100vh;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* NAV */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 32px 0 48px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 56px;
+    }
+
+    .nav-logo {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+
+    .nav-logo span { color: var(--accent); }
+
+    .nav-links { display: flex; gap: 24px; }
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-muted);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text-primary); }
+
+    /* HEADER */
+    .page-header { margin-bottom: 56px; }
+    .page-header h1 {
+      font-family: var(--font-mono);
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+    .page-header p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    /* SERIES FILTER */
+    .filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .filter-btn {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 5px 12px;
+      border-radius: 3px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      transition: all 0.15s;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-dim);
+    }
+
+    /* POST LIST */
+    .post-list { display: flex; flex-direction: column; gap: 2px; }
+
+    .post-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: start;
+      gap: 16px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      transition: all 0.15s;
+      cursor: pointer;
+    }
+
+    .post-item:first-child { border-top: 1px solid var(--border); }
+
+    .post-item:hover { padding-left: 8px; }
+
+    .post-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+
+    .post-series {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+
+    .post-divider {
+      width: 1px;
+      height: 10px;
+      background: var(--border-hover);
+    }
+
+    .post-platform {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+    }
+
+    .post-title {
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--text-primary);
+      line-height: 1.4;
+      margin-bottom: 6px;
+      transition: color 0.15s;
+    }
+    .post-item:hover .post-title { color: var(--accent); }
+
+    .post-excerpt {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      font-weight: 300;
+    }
+
+    .post-date {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      margin-top: 4px;
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 48px 0 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border);
+      margin-top: 80px;
+    }
+
+    footer p {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .footer-links a:hover { color: var(--text-primary); }
+
+    @media (max-width: 600px) {
+      .post-item { grid-template-columns: 1fr; }
+      .post-date { display: none; }
+      footer { flex-direction: column; gap: 16px; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="https://yldzmuhammed.com" class="nav-logo">muhammet<span>.</span>yildiz</a>
+    <div class="nav-links">
+      <a href="https://yldzmuhammed.com/#skills">skills</a>
+      <a href="https://yldzmuhammed.com/#experience">experience</a>
+      <a href="https://yldzmuhammed.com/#contact">contact</a>
+      <a href="https://linkedin.com/in/yldzmuhammed" target="_blank">linkedin</a>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <h1>writing</h1>
+    <p>Technical posts on IoT, wireless protocols, PCB design, firmware, and building Ameza. Written for engineers who want the real picture, not the spec sheet summary.</p>
+  </div>
+
+  <div class="filters">
+    <button class="filter-btn active" onclick="filterPosts('all', this)">all</button>
+    <button class="filter-btn" onclick="filterPosts('iot-fundamentals', this)">iot fundamentals</button>
+    <button class="filter-btn" onclick="filterPosts('lorawan', this)">lorawan</button>
+    <button class="filter-btn" onclick="filterPosts('ble', this)">ble</button>
+    <button class="filter-btn" onclick="filterPosts('ameza', this)">ameza</button>
+    <button class="filter-btn" onclick="filterPosts('opinion', this)">opinion</button>
+  </div>
+
+  <div class="post-list" id="postList">
+
+    <a class="post-item" href="posts/what-is-iot.html" data-series="iot-fundamentals">
+      <div>
+        <div class="post-meta">
+          <span class="post-series">IoT Fundamentals</span>
+          <div class="post-divider"></div>
+          <span class="post-platform">also on linkedin</span>
+        </div>
+        <div class="post-title">What is IoT really? It's not just connecting a sensor to the internet.</div>
+        <div class="post-excerpt">Most people treat wireless communication like a casual conversation. But distance costs energy, bandwidth is shared, and structure is what makes any of it reliable. Here's the real picture.</div>
+      </div>
+      <div class="post-date">Mar 18, 2026</div>
+    </a>
+
+  </div>
+
+  <footer>
+    <p>© 2026 Muhammet Yildiz</p>
+    <div class="footer-links">
+      <a href="https://yldzmuhammed.com">website</a>
+      <a href="https://linkedin.com/in/yldzmuhammed" target="_blank">linkedin</a>
+      <a href="https://github.com/yldzmuhammed" target="_blank">github</a>
+      <a href="mailto:yldzmuhammed@gmail.com">email</a>
+    </div>
+  </footer>
+
+  <script>
+    function filterPosts(series, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.post-item').forEach(item => {
+        if (series === 'all' || item.dataset.series === series) {
+          item.style.display = 'grid';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>

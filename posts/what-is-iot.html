@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>What is IoT really? — Muhammet Yildiz</title>
+  <meta name="description" content="Most people think IoT is just connecting a sensor to the internet. It's not. Here's the real picture: why wireless communication has physics, tradeoffs, and structure baked in." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0a;
+      --bg-card: #111111;
+      --border: #222222;
+      --border-hover: #333333;
+      --text-primary: #e8e8e8;
+      --text-secondary: #888888;
+      --text-muted: #555555;
+      --accent: #4ade80;
+      --accent-dim: rgba(74, 222, 128, 0.08);
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-sans: 'Inter', sans-serif;
+    }
+
+    html { background: var(--bg); color: var(--text-primary); font-family: var(--font-sans); }
+
+    body {
+      min-height: 100vh;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    /* NAV */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 32px 0 48px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 56px;
+    }
+
+    .nav-logo {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--text-secondary);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--accent); }
+
+    .nav-back {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-muted);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: color 0.15s;
+    }
+    .nav-back:hover { color: var(--text-primary); }
+
+    /* ARTICLE HEADER */
+    .article-header { margin-bottom: 48px; }
+
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .article-series {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+
+    .meta-dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--text-muted);
+    }
+
+    .article-date {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .article-read-time {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .article-title {
+      font-size: 26px;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1.3;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    .article-subtitle {
+      font-size: 16px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    /* LINKEDIN BANNER */
+    .linkedin-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 4px;
+      padding: 14px 18px;
+      margin-bottom: 48px;
+    }
+
+    .linkedin-banner p {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .linkedin-banner a {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--accent);
+      text-decoration: none;
+      white-space: nowrap;
+      border: 1px solid var(--accent);
+      padding: 5px 12px;
+      border-radius: 3px;
+      transition: all 0.15s;
+    }
+    .linkedin-banner a:hover {
+      background: var(--accent-dim);
+    }
+
+    /* ARTICLE BODY */
+    article { line-height: 1.8; }
+
+    article p {
+      font-size: 15px;
+      color: var(--text-primary);
+      font-weight: 300;
+      margin-bottom: 24px;
+    }
+
+    article h2 {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin: 48px 0 20px;
+    }
+
+    article h3 {
+      font-size: 17px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin: 32px 0 14px;
+      letter-spacing: -0.01em;
+    }
+
+    article strong {
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    article em {
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+
+    .callout {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 4px;
+      padding: 20px 24px;
+      margin: 32px 0;
+    }
+
+    .callout p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin: 0;
+      line-height: 1.7;
+    }
+
+    .callout strong {
+      color: var(--accent);
+    }
+
+    article ul, article ol {
+      padding-left: 20px;
+      margin-bottom: 24px;
+    }
+
+    article li {
+      font-size: 15px;
+      color: var(--text-primary);
+      font-weight: 300;
+      margin-bottom: 8px;
+      line-height: 1.7;
+    }
+
+    article hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 48px 0;
+    }
+
+    /* NEXT POST */
+    .next-post {
+      margin-top: 64px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+    }
+
+    .next-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .next-post a {
+      font-size: 16px;
+      color: var(--text-primary);
+      text-decoration: none;
+      font-weight: 400;
+      transition: color 0.15s;
+    }
+    .next-post a:hover { color: var(--accent); }
+
+    /* AUTHOR */
+    .author-block {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 64px;
+      padding: 24px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+
+    .author-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--accent-dim);
+      border: 1px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .author-info p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      font-weight: 300;
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    .author-info strong {
+      font-size: 14px;
+      color: var(--text-primary);
+      font-weight: 500;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .author-info a {
+      color: var(--accent);
+      text-decoration: none;
+      font-family: var(--font-mono);
+      font-size: 11px;
+    }
+
+    @media (max-width: 600px) {
+      .article-title { font-size: 22px; }
+      .linkedin-banner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="https://yldzmuhammed.com" class="nav-logo">muhammet<span>.</span>yildiz</a>
+    <a href="../index.html" class="nav-back">← all posts</a>
+  </nav>
+
+  <div class="article-header">
+    <div class="article-meta">
+      <span class="article-series">IoT Fundamentals</span>
+      <div class="meta-dot"></div>
+      <span class="article-date">Mar 18, 2026</span>
+      <div class="meta-dot"></div>
+      <span class="article-read-time">7 min read</span>
+    </div>
+    <h1 class="article-title">What is IoT really? It's not just connecting a sensor to the internet.</h1>
+    <p class="article-subtitle">Most people treat wireless communication like a casual conversation. But distance costs energy, bandwidth is shared, and structure is what makes any of it reliable.</p>
+  </div>
+
+  <div class="linkedin-banner">
+    <p>A shorter version of this post is on LinkedIn. Follow along for the weekly series.</p>
+    <a href="https://linkedin.com/in/yldzmuhammed" target="_blank">follow on linkedin →</a>
+  </div>
+
+  <article>
+
+    <p>When people hear "IoT," most picture a smart thermostat or a fitness tracker. They think it's about connecting a device to the internet and reading the data on a phone. That's a bit like describing a highway as "where cars go." Technically true. Completely misses the point.</p>
+
+    <p>IoT is a communication problem. And communication, whether between people or machines, has real physics behind it, real constraints, real tradeoffs. Ignore those and your product breaks in the field. Understand them and you start making decisions that actually hold up at scale.</p>
+
+    <p>I've been building IoT products for 15 years. Water meters that run on a battery for a decade. Rail sensor networks that communicate across kilometers. Security cameras that process video locally and push only what matters upstream. Every single one of those projects came down to the same core challenge: how do these devices talk to each other and to the outside world reliably, efficiently, and cheaply?</p>
+
+    <p>This post is the start of a series where I break down how IoT communication actually works, from the physics up. No spec sheet summaries. Just the real picture, with the tradeoffs spelled out.</p>
+
+    <h2>Start here: communication is physical</h2>
+
+    <p>Think about shouting to someone across a field. When they're close, you speak normally. As they move further away, you raise your voice. The further they get, the louder you have to shout, and the faster your throat gets tired.</p>
+
+    <p>Your device does the same thing. The further it needs to transmit, the more power it burns doing it. This is not a software limitation you can optimize away. It's physics. The radio inside your device is spending energy to push a signal through the air, and distance works against you every time.</p>
+
+    <p>This is why range and power consumption are always discussed together in wireless protocols. They're not separate specs. They're two sides of the same equation.</p>
+
+    <h2>Bandwidth: a shared resource</h2>
+
+    <p>Now imagine a crowded room where everyone is trying to have a conversation at the same time. The noise builds up. People start talking over each other. You have to repeat yourself. Some conversations break down entirely.</p>
+
+    <p>Wireless spectrum works the same way. The radio frequencies your device uses are shared with every other device in the area. Wi-Fi, Bluetooth, Zigbee, your neighbor's microwave: they all compete for the same airspace. When too many devices try to transmit at once in the same band, they collide, and data gets lost.</p>
+
+    <p>This is why protocols have channel access schemes: ways of taking turns so devices don't constantly talk over each other. Some use fixed time slots. Some listen before they speak. Some hop between frequencies to avoid congestion. Each approach has tradeoffs in latency, reliability, and complexity.</p>
+
+    <h2>Why structure matters more than people think</h2>
+
+    <p>Here's something I've noticed: people are comfortable with structure in everyday life without realizing it. You shake hands before a meeting. You say goodbye before hanging up the phone. You wait for someone to finish speaking before you respond. These rituals feel natural because they make communication reliable.</p>
+
+    <p>Device communication needs the same thing. A device can't just blast data into the air and hope the server catches it. There needs to be a handshake, an acknowledgment, a way to know that the message arrived and arrived correctly. Without that structure, you end up with data loss, duplicate messages, out-of-order packets, and systems that look fine in the lab and fall apart in the field.</p>
+
+    <p>This is what wireless protocols are, at their core. They're structured agreements between devices about how to talk to each other. When to transmit, how long to listen, how to handle errors, how to authenticate. The protocol is the rulebook that makes communication reliable at scale.</p>
+
+    <h2>The three constraints every IoT product lives inside</h2>
+
+    <p>Every IoT product I've built has had to balance three things:</p>
+
+    <p><strong>Range.</strong> How far does the device need to communicate? A sensor in a factory talks to a gateway 20 meters away. A water meter buried in the ground talks to a gateway 2 kilometers away. These are completely different problems requiring completely different protocols.</p>
+
+    <p><strong>Power.</strong> How long does the device need to run on a battery? A product that lives on mains power can afford to keep its radio on all the time. A sensor running on two AA batteries for five years cannot. The protocol choice, the antenna design, the firmware architecture, all of it flows from this constraint.</p>
+
+    <p><strong>Cost.</strong> What does the radio hardware cost at the volume you're shipping? A $4 BLE module is fine for 1,000 units. A $12 cellular module might not be. And the module is only part of it. You also pay for the antenna, the RF design work, the certification testing, and in the case of cellular, a monthly data plan per device for the life of the product.</p>
+
+    <p>These three constraints, range, power, and cost, are what make protocol selection genuinely hard. There is no protocol that wins on all three. LoRaWAN gives you incredible range and excellent power efficiency, but low data rate and shared network infrastructure. BLE is cheap and ubiquitous, but short range. LTE gives you global coverage and reliable connectivity, but it costs money every month and burns power fast.</p>
+
+    <p>Understanding why those tradeoffs exist, at a physics and engineering level, is what lets you make the right call for your product.</p>
+
+    <h2>What's coming in this series</h2>
+
+    <p>Over the next several months I'll go through each major wireless protocol in detail: LoRaWAN, BLE, Wi-Fi, LTE Cat-M1, and Zigbee. For each one I'll cover how it actually works, what the PCB design implications are, what the real power numbers look like in production, and when you should walk away from it.</p>
+
+    <p>Then I'll compare them side by side and put together a practical framework for picking the right one for your product.</p>
+
+    <p>If you're building connected hardware, or evaluating whether to, this series is for you. Follow along on LinkedIn for the short version each week, or read the full breakdowns here.</p>
+
+    <hr>
+
+    <div class="callout">
+      <p><strong>Next up:</strong> What makes an IoT product actually production-ready? There's a big difference between a prototype that works in your office and a product that survives in the field for five years. I'll break down the real checklist.</p>
+    </div>
+
+  </article>
+
+  <div class="author-block">
+    <div class="author-avatar">MY</div>
+    <div class="author-info">
+      <strong>Muhammet Yildiz</strong>
+      <p>Principal Embedded Systems Engineer at Hum Industrial. Founder of Ameza. 15+ years shipping IoT hardware across industrial, consumer, and infrastructure products.</p>
+      <a href="https://linkedin.com/in/yldzmuhammed" target="_blank">linkedin →</a>
+    </div>
+  </div>
+
+  <div class="next-post">
+    <p class="next-label">next post</p>
+    <a href="#">What makes an IoT product production-ready? — coming Mar 26, 2026</a>
+  </div>
+
+</body>
+</html>
