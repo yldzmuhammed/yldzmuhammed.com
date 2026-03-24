@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>What makes an IoT product production-ready? — Muhammet Yildiz</title>
+  <meta name="description" content="Getting a prototype to work on your desk is the easy part. Here is what actually separates a prototype from a product that survives in the field."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/main.css"/>
+  <style>
+    .post-header { padding: 64px 0 40px; border-bottom: 1px solid var(--border); margin-bottom: 48px; }
+    .post-back { font-family: var(--mono); font-size: 11px; color: var(--ink3); text-decoration: none; letter-spacing: 0.04em; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 32px; transition: color 0.15s; }
+    .post-back:hover { color: var(--ink); }
+    .post-series-tag { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+    .post-series-tag span { color: var(--ink3); }
+    .post-title { font-family: var(--serif); font-size: clamp(26px, 4vw, 40px); color: var(--ink); letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 16px; }
+    .post-subtitle { font-size: 16px; color: var(--ink2); font-weight: 300; line-height: 1.7; max-width: 560px; margin-bottom: 24px; }
+    .post-meta-row { display: flex; align-items: center; gap: 16px; }
+    .post-date { font-family: var(--mono); font-size: 11px; color: var(--ink3); }
+    .post-read-time { font-family: var(--mono); font-size: 11px; color: var(--ink3); }
+    .meta-sep { width: 3px; height: 3px; border-radius: 50%; background: var(--ink3); }
+
+    .linkedin-banner { display: flex; align-items: center; justify-content: space-between; gap: 16px; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 4px; padding: 14px 18px; margin-bottom: 48px; }
+    .linkedin-banner p { font-family: var(--mono); font-size: 11px; color: var(--ink2); line-height: 1.5; }
+    .linkedin-banner a { font-family: var(--mono); font-size: 11px; color: var(--accent); text-decoration: none; white-space: nowrap; border: 1px solid var(--accent); padding: 5px 12px; border-radius: 3px; transition: all 0.15s; flex-shrink: 0; }
+
+    .post-body { max-width: 640px; }
+    .post-body p { font-size: 15px; color: var(--ink); font-weight: 300; line-height: 1.85; margin-bottom: 24px; }
+    .post-body h2 { font-family: var(--mono); font-size: 11px; font-weight: 500; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin: 48px 0 18px; }
+    .post-body strong { font-weight: 500; color: var(--ink); }
+    .post-body hr { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
+
+    .callout { background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 4px; padding: 20px 24px; margin: 32px 0; }
+    .callout p { font-size: 14px; color: var(--ink2); margin: 0; line-height: 1.7; }
+
+    .author-block { display: flex; align-items: center; gap: 16px; margin-top: 64px; padding: 22px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; }
+    .author-avatar { width: 42px; height: 42px; border-radius: 50%; background: var(--accent-light, rgba(196,83,26,0.1)); border: 1px solid var(--accent); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12px; color: var(--accent); flex-shrink: 0; }
+    .author-info strong { font-size: 14px; color: var(--ink); font-weight: 500; display: block; margin-bottom: 3px; }
+    .author-info p { font-size: 13px; color: var(--ink2); font-weight: 300; line-height: 1.5; margin: 0 0 6px; }
+    .author-info a { color: var(--accent); text-decoration: none; font-family: var(--mono); font-size: 11px; }
+
+    .next-post { margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--border); }
+    .next-label { font-family: var(--mono); font-size: 10px; color: var(--ink3); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+    .next-post a { font-size: 15px; color: var(--ink); text-decoration: none; transition: color 0.15s; }
+    .next-post a:hover { color: var(--accent); }
+
+    @media (max-width: 600px) {
+      .linkedin-banner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="../index.html" class="nav-logo">Muhammet Yildiz</a>
+    <div class="nav-links">
+      <a href="../about.html">About</a>
+      <a href="../projects.html">Projects</a>
+      <a href="../writing.html" class="active">Writing</a>
+      <a href="../contact.html">Contact</a>
+    </div>
+    <div class="nav-actions">
+      <button class="nav-btn nav-theme" onclick="toggleTheme()"><span id="themeIcon">◑</span><span id="themeLabel" style="margin-left:4px">dark</span></button>
+      <a class="nav-btn" href="https://github.com/yldzmuhammed" target="_blank"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" stroke="currentColor" fill="none"/></svg></a>
+      <a class="nav-btn" href="https://linkedin.com/in/yldzmuhammed" target="_blank"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+      <a class="nav-btn" href="mailto:yldzmuhammed@gmail.com"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+    </div>
+  </nav>
+
+  <div class="page">
+    <div class="container-narrow">
+
+      <div class="post-header">
+        <a class="post-back" href="../writing.html">back to writing</a>
+        <div class="post-series-tag">IoT Fundamentals <span>·</span> Part 2 <span>·</span> also on LinkedIn</div>
+        <h1 class="post-title">What makes an IoT product production-ready?</h1>
+        <p class="post-subtitle">Getting a prototype to work on your desk is the easy part. Here is what actually separates a prototype from a product that survives in the field.</p>
+        <div class="post-meta-row">
+          <span class="post-date">Mar 24, 2026</span>
+          <div class="meta-sep"></div>
+          <span class="post-read-time">7 min read</span>
+        </div>
+      </div>
+
+      <div class="linkedin-banner">
+        <p>A shorter version of this post is on LinkedIn. Follow along for the weekly series.</p>
+        <a href="https://linkedin.com/in/yldzmuhammed" target="_blank">follow on linkedin</a>
+      </div>
+
+      <div class="post-body">
+
+        <p>Every engineer has experienced this. You build a prototype. It works perfectly in your office. You hand it to someone else and within five minutes they have found a way to break it that you never imagined possible.</p>
+
+        <p>That gap between "works on my desk" and "works in the real world" is where most IoT products quietly die. Not because the hardware failed. Not because the firmware had a bug. But because the team designed for themselves and forgot who would actually be using it.</p>
+
+        <p>After 15 years of shipping IoT products across industrial, healthcare, consumer, and infrastructure applications, the single biggest thing I have seen separate production-ready products from expensive prototypes is this: assuming the user knows nothing and designing accordingly.</p>
+
+        <p>Not as an insult. As a discipline.</p>
+
+        <h2>The engineer's blind spot</h2>
+
+        <p>Engineers make terrible test users for their own products. We know too much. We know which button to press first. We know what the blinking LED means. We know not to power the device on before the antenna is connected. We designed it, so the whole thing makes sense to us.</p>
+
+        <p>The user does not have any of that context. They open the box, look at the device, and figure it out from scratch. If the setup process requires reading a manual, most people will not read it. If an error state is communicated with a LED pattern that means something to an engineer but nothing to anyone else, the user will not know what to do. If the device can be configured incorrectly in a way that causes silent failure, some users will configure it incorrectly.</p>
+
+        <p>This is not a UX problem. It is a systems design problem. And it needs to be solved at the hardware and firmware level, not patched with better documentation.</p>
+
+        <h2>Design for the worst case user</h2>
+
+        <p>The KISS principle, keep it simple, gets applied in engineering all the time. But most engineers apply it to their own workflow: simpler code, simpler architecture, simpler debugging. The more important application is to the user experience of the shipped product.</p>
+
+        <p>A production-ready IoT device should be so simple to set up and use that someone with no technical background can do it without help. That is the bar. Not "it comes with a good manual." Not "you can call support." The device itself should guide the user through every state it can be in.</p>
+
+        <p>What does that look like in practice? It means thinking through every scenario the device might encounter before you finalize the hardware. Not just the happy path. Every edge case. Every failure mode. Every state the device can end up in, including states the user was never supposed to reach.</p>
+
+        <p>What happens if the user powers it on before connecting it to the network? What happens if the battery dies mid-update? What happens if two units are placed too close together and interfere with each other? What happens if the device is installed in a location with poor signal? What happens if the user presses the reset button at exactly the wrong moment?</p>
+
+        <p>Each of these is a scenario the device needs to handle gracefully. Not crash. Not lock up. Not enter a silent failure state that looks like normal operation. Handle it gracefully and tell the user what is happening in the simplest possible way.</p>
+
+        <h2>Feedback is not optional</h2>
+
+        <p>One of the most common production failures I see is a device that gives the user no feedback during critical operations. No indication that setup is in progress. No confirmation that it worked. No clear signal when something went wrong.</p>
+
+        <p>Engineers tend to underinvest in feedback because during development they can see everything in a serial console. They know the device is working because the logs say so. The end user has no serial console. They have whatever you put in front of them: LEDs, a display, a sound, a companion app, or nothing at all.</p>
+
+        <p>If the user cannot tell what state the device is in without specialized tools, the device is not production-ready. This sounds obvious but it gets skipped constantly, especially when the feedback mechanism adds cost or complexity to the hardware.</p>
+
+        <p>A single well-designed LED can communicate a surprising amount of information if the states are thought through carefully. A simple companion app can make a technically complex setup process feel effortless. The investment is almost always worth it.</p>
+
+        <h2>Edge cases are not edge cases in production</h2>
+
+        <p>Here is something that catches teams off guard when they go from prototype to production: the scenarios you dismissed as unlikely happen constantly at scale.</p>
+
+        <p>If you ship 10,000 devices and there is a one-in-a-thousand chance of a particular failure mode, you have just guaranteed 10 field failures. If there is a one-in-a-hundred chance, you have 100. The math is unforgiving. Scenarios that felt like edge cases in the lab are real problems in the field.</p>
+
+        <p>This is why production-ready firmware handles every state the device can reach, not just the states you expect it to reach. Every input needs validation. Every network operation needs a timeout. Every write to non-volatile memory needs to be atomic or recoverable. Every update mechanism needs a fallback. The device needs to be able to recover from power loss at any point in any operation without ending up in an unusable state.</p>
+
+        <p>None of this is glamorous engineering. It is the kind of work that does not show up in a demo. But it is the difference between a product that works and a product that works reliably at scale.</p>
+
+        <h2>The real checklist</h2>
+
+        <p>When I am evaluating whether a product is ready for production, these are the questions I ask:</p>
+
+        <p><strong>Can a non-technical user set this up without help?</strong> Not with a good manual. Without help. If the answer is no, the setup process needs to be redesigned.</p>
+
+        <p><strong>Does every state the device can be in communicate something useful to the user?</strong> Including error states, update states, and states the user was not supposed to reach.</p>
+
+        <p><strong>What happens when things go wrong?</strong> Power loss during update. Network dropout mid-operation. Bad user input. Sensor failure. Each of these needs a defined, graceful behavior.</p>
+
+        <p><strong>Has someone who did not build it tried to use it?</strong> Not a colleague who knows the product. Someone who has never seen it before. Watch them use it without helping. Every moment of confusion is a design problem.</p>
+
+        <p><strong>What does the device look like to the user in the worst case scenario?</strong> Not the best case. The worst case. If the answer is confusing or invisible, it is not ready.</p>
+
+        <h2>Prototypes and products are different things</h2>
+
+        <p>A prototype proves that the idea works. A product proves that the idea works for the people who will actually use it, in the conditions they will actually use it in, without any of the context the engineer had when they built it.</p>
+
+        <p>The gap between those two things is wider than most teams expect. And it is almost always filled by doing one thing: assuming the user knows nothing, and designing as if that assumption is a fact.</p>
+
+        <hr>
+
+        <div class="callout">
+          <p><strong>Next up:</strong> How to read a wireless protocol spec without drowning. What actually matters for product decisions and what you can safely ignore.</p>
+        </div>
+
+        <div class="author-block">
+          <div class="author-avatar">MY</div>
+          <div class="author-info">
+            <strong>Muhammet Yildiz</strong>
+            <p>Principal Embedded Systems Engineer at Hum Industrial. Founder of Ameza. 15+ years shipping IoT hardware.</p>
+            <a href="https://linkedin.com/in/yldzmuhammed" target="_blank">linkedin</a>
+          </div>
+        </div>
+
+        <div class="next-post">
+          <p class="next-label">next post</p>
+          <a href="#">How to read a wireless protocol spec without drowning — coming Mar 31, 2026</a>
+        </div>
+
+      </div>
+
+      <footer class="footer" style="padding: 32px 0; margin-top: 40px;">
+        <p>2026 Muhammet Yildiz</p>
+        <div class="footer-links">
+          <a href="../writing.html">All posts</a>
+          <a href="../about.html">About</a>
+          <a href="../contact.html">Contact</a>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    const html = document.documentElement;
+    const icon = document.getElementById('themeIcon');
+    const label = document.getElementById('themeLabel');
+    function applyTheme(theme) {
+      html.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      icon.textContent = theme === 'dark' ? '○' : '◑';
+      label.textContent = theme === 'dark' ? 'light' : 'dark';
+    }
+    function toggleTheme() { applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); }
+    const saved = localStorage.getItem('theme');
+    if (saved) { applyTheme(saved); }
+    else if (window.matchMedia('(prefers-color-scheme: dark)').matches) { applyTheme('dark'); }
+  </script>
+</body>
+</html>
