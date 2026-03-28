@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Technical ownership in hardware startups — Muhammet YILDIZ</title>
+  <meta name="description" content="Building a hardware product without an electronics background is not the problem. Here is what good technical leadership actually looks like."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/main.css"/>
+  <style>
+    .post-header { padding: 64px 0 40px; border-bottom: 1px solid var(--border); margin-bottom: 48px; }
+    .post-back { font-family: var(--mono); font-size: 11px; color: var(--ink3); text-decoration: none; letter-spacing: 0.04em; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 32px; transition: color 0.15s; }
+    .post-back:hover { color: var(--ink); }
+    .post-series-tag { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+    .post-series-tag span { color: var(--ink3); }
+    .post-title { font-family: var(--serif); font-size: clamp(26px, 4vw, 40px); color: var(--ink); letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 16px; }
+    .post-subtitle { font-size: 16px; color: var(--ink2); font-weight: 300; line-height: 1.7; max-width: 560px; margin-bottom: 24px; }
+    .post-meta-row { display: flex; align-items: center; gap: 16px; }
+    .post-date { font-family: var(--mono); font-size: 11px; color: var(--ink3); }
+    .post-read-time { font-family: var(--mono); font-size: 11px; color: var(--ink3); }
+    .meta-sep { width: 3px; height: 3px; border-radius: 50%; background: var(--ink3); }
+    .linkedin-banner { display: flex; align-items: center; justify-content: space-between; gap: 16px; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 4px; padding: 14px 18px; margin-bottom: 48px; }
+    .linkedin-banner p { font-family: var(--mono); font-size: 11px; color: var(--ink2); line-height: 1.5; }
+    .linkedin-banner a { font-family: var(--mono); font-size: 11px; color: var(--accent); text-decoration: none; white-space: nowrap; border: 1px solid var(--accent); padding: 5px 12px; border-radius: 3px; transition: all 0.15s; flex-shrink: 0; }
+    .post-body { max-width: 640px; }
+    .post-body p { font-size: 15px; color: var(--ink); font-weight: 300; line-height: 1.85; margin-bottom: 24px; }
+    .post-body h2 { font-family: var(--mono); font-size: 11px; font-weight: 500; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin: 48px 0 18px; }
+    .post-body strong { font-weight: 500; color: var(--ink); }
+    .post-body hr { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
+    .callout { background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 4px; padding: 20px 24px; margin: 32px 0; }
+    .callout p { font-size: 14px; color: var(--ink2); margin: 0; line-height: 1.7; }
+    .author-block { display: flex; align-items: center; gap: 16px; margin-top: 64px; padding: 22px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; }
+    .author-avatar { width: 42px; height: 42px; border-radius: 50%; background: var(--accent-light, rgba(196,83,26,0.1)); border: 1px solid var(--accent); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12px; color: var(--accent); flex-shrink: 0; }
+    .author-info strong { font-size: 14px; color: var(--ink); font-weight: 500; display: block; margin-bottom: 3px; }
+    .author-info p { font-size: 13px; color: var(--ink2); font-weight: 300; line-height: 1.5; margin: 0 0 6px; }
+    .author-info a { color: var(--accent); text-decoration: none; font-family: var(--mono); font-size: 11px; }
+    .next-post { margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--border); }
+    .next-label { font-family: var(--mono); font-size: 10px; color: var(--ink3); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+    .next-post a { font-size: 15px; color: var(--ink); text-decoration: none; transition: color 0.15s; }
+    .next-post a:hover { color: var(--accent); }
+    @media (max-width: 600px) { .linkedin-banner { flex-direction: column; align-items: flex-start; } }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="../index.html" class="nav-logo">Muhammet YILDIZ</a>
+    <div class="nav-links">
+      <a href="../about.html">About</a>
+      <a href="../projects.html">Projects</a>
+      <a href="../writing.html" class="active">Writing</a>
+      <a href="../contact.html">Contact</a>
+    </div>
+    <div class="nav-actions">
+      <button class="nav-btn nav-theme" onclick="toggleTheme()"><span id="themeIcon">◑</span><span id="themeLabel" style="margin-left:4px">dark</span></button>
+      <a class="nav-btn" href="https://github.com/yldzmuhammed" target="_blank"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" stroke="currentColor" fill="none"/></svg></a>
+      <a class="nav-btn" href="https://linkedin.com/in/yldzmuhammed" target="_blank"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+      <a class="nav-btn" href="mailto:yldzmuhammed@gmail.com"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+    </div>
+  </nav>
+
+  <div class="page">
+    <div class="container-narrow">
+
+      <div class="post-header">
+        <a class="post-back" href="../writing.html">back to writing</a>
+        <div class="post-series-tag">Opinion <span>·</span> also on LinkedIn</div>
+        <h1 class="post-title">Technical ownership in hardware startups</h1>
+        <p class="post-subtitle">Building a hardware product without an electronics background is not the problem. Here is what good technical leadership actually looks like.</p>
+        <div class="post-meta-row">
+          <span class="post-date">Mar 27, 2026</span>
+          <div class="meta-sep"></div>
+          <span class="post-read-time">6 min read</span>
+        </div>
+      </div>
+
+      <div class="linkedin-banner">
+        <p>A shorter version of this post is on LinkedIn. Follow along for the weekly series.</p>
+        <a href="https://linkedin.com/in/yldzmuhammed" target="_blank">follow on linkedin</a>
+      </div>
+
+      <div class="post-body">
+
+        <p>Building a hardware product without an electronics background is not the problem. Plenty of successful hardware companies were started by non-technical founders. What separates the ones that ship from the ones that stall is not technical depth. It is how the founding team handles technical ownership.</p>
+
+        <p>There is a difference between not knowing how to design a PCB and not knowing your own product. The first is fine. You hire for that. The second is a structural problem that no hire can solve, because every decision that comes back to you will land on a foundation that is not solid enough to support it.</p>
+
+        <h2>The junior engineer problem</h2>
+
+        <p>One pattern I see often is a non-technical founder who brings in a junior or mid-level engineer and expects them to own the entire technical direction of the product. Define the architecture. Make the protocol decisions. Own the hardware and firmware from scratch.</p>
+
+        <p>That is not a reasonable expectation, and it is not fair to the engineer. Good architecture comes from experience. Experience takes years to build. A junior engineer in that position will make decisions that feel correct in the moment but create real problems later, not because they are not talented, but because they have not yet encountered the failure modes that would tell them otherwise.</p>
+
+        <p>The founder's job in that situation is not to know the answers. It is to make sure that person is not alone. To bring in senior guidance, even part time. To ask the right questions. To create space for the engineer to raise concerns without those concerns being dismissed as obstacles to the roadmap.</p>
+
+        <p>When that support is missing, the engineer carries a weight they were not ready for, and the product carries the cost of every decision that got made without enough experience behind it.</p>
+
+        <h2>The senior engineer problem</h2>
+
+        <p>The second pattern is subtler and in some ways harder to see from the inside. A founder brings in a strong senior engineer. The engineer is capable and experienced. Things look good.</p>
+
+        <p>Then the engineer finds the real problem. And it turns out the real problem is not something that can be patched. It is something structural that requires going back to a decision that was made earlier. Maybe the architecture needs to change. Maybe the component choice has a fundamental limitation. Maybe the approach that made sense at the prototype stage does not hold up at production scale.</p>
+
+        <p>This is the moment that defines a lot of companies. The senior engineer comes to the founder with this information. They explain what needs to change and why. And the founder, without enough context to evaluate what they are hearing, pushes back. Not out of bad intent, but because the change sounds expensive and disruptive, and there is a roadmap to hit.</p>
+
+        <p>So the engineer tries to work around the problem. They find a patch that holds for a while. But the structural issue is still there, and eventually it surfaces again, usually at a worse moment and at higher cost.</p>
+
+        <p>The engineer in this situation is not failing. They identified the problem correctly. What failed was the environment that stopped them from fixing it.</p>
+
+        <h2>What technical ownership actually means</h2>
+
+        <p>Technical ownership does not mean the founder needs to be the most technically capable person in the room. It means staying close enough to the work to make good decisions about it.</p>
+
+        <p>It means understanding your product well enough to know when something your engineer is telling you is important, even if you cannot fully evaluate the technical details yourself. It means building the kind of relationship with your technical team where they can surface hard problems without worrying that the messenger will be blamed for the message.</p>
+
+        <p>It means recognizing that when a senior engineer tells you something needs to fundamentally change, that conversation is valuable information, not an inconvenient obstacle. The engineer is not trying to slow you down. They are trying to stop you from building on a foundation that will not hold.</p>
+
+        <p>It also means taking responsibility for the technical direction of your company rather than delegating it entirely. You can delegate execution. You cannot delegate understanding. The founder who abdicates that understanding ends up with a product that was built by a series of contractors and employees who each did their part but nobody owned the whole.</p>
+
+        <h2>Practical steps</h2>
+
+        <p>If you are a non-technical founder building a hardware product, here are the things that actually make a difference.</p>
+
+        <p><strong>Get close to the work.</strong> Not to micromanage, but to understand. Sit with your engineers regularly. Ask them to explain what they are building and why. Ask what they are worried about. Ask what they would change if they could. You will learn more from those conversations than from any status report.</p>
+
+        <p><strong>Hire senior guidance early, even if it is part time.</strong> If you cannot afford a full-time senior engineer yet, bring in a consultant or advisor who can review architectural decisions and give your junior engineers someone to pressure-test ideas with. The cost of that guidance is small compared to the cost of a fundamental architectural mistake discovered late.</p>
+
+        <p><strong>Create space for hard conversations.</strong> Make it safe for your engineers to tell you when something is not working. The worst thing that can happen in a hardware startup is an engineer who sees a serious problem coming but does not raise it because they are worried about how it will land. That silence is expensive.</p>
+
+        <p><strong>Learn enough to ask good questions.</strong> You do not need to become an engineer. But understanding the basics of how your product works, what the key technical risks are, what the main design decisions were and why, that knowledge makes you a better leader and a better decision-maker.</p>
+
+        <h2>The founder who protects the work</h2>
+
+        <p>The hardware founders I have seen succeed are not necessarily the most technical. But they are all deeply engaged with their product. They understand the constraints. They listen to their engineers. They create conditions where hard problems can be surfaced and solved rather than papered over.</p>
+
+        <p>That is what technical ownership looks like. Not knowing everything. Staying close enough to the work to protect it.</p>
+
+        <hr>
+
+        <div class="callout">
+          <p><strong>Next Thursday:</strong> Why I built Ameza, and what I learned from trying to solve a real retail problem with technology.</p>
+        </div>
+
+        <div class="author-block">
+          <div class="author-avatar">MY</div>
+          <div class="author-info">
+            <strong>Muhammet YILDIZ</strong>
+            <p>Principal Embedded Systems Engineer at Hum Industrial. Founder of Ameza. 15+ years shipping IoT hardware.</p>
+            <a href="https://linkedin.com/in/yldzmuhammed" target="_blank">linkedin</a>
+          </div>
+        </div>
+
+        <div class="next-post">
+          <p class="next-label">next post</p>
+          <a href="#">Why I built Ameza — coming Apr 3, 2026</a>
+        </div>
+
+      </div>
+
+      <footer class="footer" style="padding: 32px 0; margin-top: 40px;">
+        <p>2026 Muhammet YILDIZ</p>
+        <div class="footer-links">
+          <a href="../writing.html">All posts</a>
+          <a href="../about.html">About</a>
+          <a href="../contact.html">Contact</a>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    const html = document.documentElement;
+    const icon = document.getElementById('themeIcon');
+    const label = document.getElementById('themeLabel');
+    function applyTheme(theme) {
+      html.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      icon.textContent = theme === 'dark' ? '○' : '◑';
+      label.textContent = theme === 'dark' ? 'light' : 'dark';
+    }
+    function toggleTheme() { applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); }
+    const saved = localStorage.getItem('theme');
+    if (saved) { applyTheme(saved); }
+    else if (window.matchMedia('(prefers-color-scheme: dark)').matches) { applyTheme('dark'); }
+  </script>
+</body>
+</html>
