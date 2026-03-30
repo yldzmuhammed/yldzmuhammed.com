@@ -1,0 +1,15 @@
+[Unit]
+Description=yldzmuhammed.com static site
+After=network.target
+
+[Service]
+Type=simple
+User=compishco
+WorkingDirectory=/home/compishco/yldzmuhammed.com
+ExecStart=/home/compishco/.bun/bin/bun run serve.ts
+Restart=on-failure
+RestartSec=5s
+Environment=HOME=/home/compishco
+
+[Install]
+WantedBy=multi-user.target
