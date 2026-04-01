@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The 90-Minute Spec — Muhammet YILDIZ</title>
+  <meta name="description" content="Most engineers do one of two things with a 300-page wireless spec. Both are mistakes. Here is the 90-minute method that gets you 80% of what you need for a product decision."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/main.css"/>
+  <style>
+    .post-header { padding: 64px 0 40px; border-bottom: 1px solid var(--border); margin-bottom: 48px; }
+    .post-back { font-family: var(--mono); font-size: 11px; color: var(--ink3); text-decoration: none; letter-spacing: 0.04em; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 32px; transition: color 0.15s; }
+    .post-back:hover { color: var(--ink); }
+    .post-series-tag { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+    .post-series-tag span { color: var(--ink3); }
+    .post-title { font-family: var(--serif); font-size: clamp(26px, 4vw, 40px); color: var(--ink); letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 16px; }
+    .post-subtitle { font-size: 16px; color: var(--ink2); font-weight: 300; line-height: 1.7; max-width: 560px; margin-bottom: 24px; }
+    .post-meta-row { display: flex; align-items: center; gap: 16px; }
+    .post-date { font-family: var(--mono); font-size: 11px; color: var(--ink3); }
+    .post-read-time { font-family: var(--mono); font-size: 11px; color: var(--ink3); }
+    .meta-sep { width: 3px; height: 3px; border-radius: 50%; background: var(--ink3); }
+    .linkedin-banner { display: flex; align-items: center; justify-content: space-between; gap: 16px; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 4px; padding: 14px 18px; margin-bottom: 48px; }
+    .linkedin-banner p { font-family: var(--mono); font-size: 11px; color: var(--ink2); line-height: 1.5; }
+    .linkedin-banner a { font-family: var(--mono); font-size: 11px; color: var(--accent); text-decoration: none; white-space: nowrap; border: 1px solid var(--accent); padding: 5px 12px; border-radius: 3px; transition: all 0.15s; flex-shrink: 0; }
+    .post-body { max-width: 640px; }
+    .post-body p { font-size: 15px; color: var(--ink); font-weight: 300; line-height: 1.85; margin-bottom: 24px; }
+    .post-body h2 { font-family: var(--mono); font-size: 11px; font-weight: 500; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin: 48px 0 18px; }
+    .post-body h3 { font-family: var(--serif); font-size: 20px; color: var(--ink); margin: 32px 0 12px; line-height: 1.3; }
+    .post-body strong { font-weight: 500; color: var(--ink); }
+    .post-body ul { padding-left: 0; margin-bottom: 24px; list-style: none; }
+    .post-body ul li { font-size: 15px; color: var(--ink2); font-weight: 300; line-height: 1.7; padding: 6px 0 6px 20px; position: relative; }
+    .post-body ul li::before { content: ''; position: absolute; left: 0; top: 15px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); opacity: 0.5; }
+    .post-body ol { padding-left: 0; margin-bottom: 24px; list-style: none; counter-reset: item; }
+    .post-body ol li { font-size: 15px; color: var(--ink); font-weight: 300; line-height: 1.7; padding: 10px 0 10px 36px; position: relative; border-bottom: 1px solid var(--border); counter-increment: item; }
+    .post-body ol li:last-child { border-bottom: none; }
+    .post-body ol li::before { content: counter(item); position: absolute; left: 0; top: 10px; font-family: var(--mono); font-size: 11px; color: var(--accent); font-weight: 500; letter-spacing: 0.06em; }
+    .post-body ol li strong { display: block; margin-bottom: 4px; }
+    .glossary-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 14px 18px; margin-bottom: 10px; }
+    .glossary-term { font-family: var(--mono); font-size: 12px; color: var(--accent); font-weight: 500; margin-bottom: 4px; }
+    .glossary-def { font-size: 13px; color: var(--ink2); font-weight: 300; line-height: 1.6; margin: 0; }
+    .security-questions { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 24px 28px; margin: 28px 0; }
+    .security-questions p { font-size: 14px; color: var(--ink2); font-weight: 300; line-height: 1.7; margin-bottom: 10px; padding-left: 20px; position: relative; }
+    .security-questions p:last-child { margin-bottom: 0; }
+    .security-questions p::before { content: '?'; position: absolute; left: 0; font-family: var(--mono); font-size: 11px; color: var(--accent); font-weight: 500; }
+    .strategy-block { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 24px 28px; margin: 28px 0; }
+    .strategy-block .step { display: flex; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--border); align-items: baseline; }
+    .strategy-block .step:last-child { border-bottom: none; }
+    .step-time { font-family: var(--mono); font-size: 10px; color: var(--accent); letter-spacing: 0.06em; white-space: nowrap; flex-shrink: 0; min-width: 60px; }
+    .step-text { font-size: 13px; color: var(--ink2); font-weight: 300; line-height: 1.6; }
+    .step-text strong { color: var(--ink); font-weight: 500; display: block; margin-bottom: 2px; }
+    .post-body hr { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
+    .callout { background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 4px; padding: 20px 24px; margin: 32px 0; }
+    .callout p { font-size: 14px; color: var(--ink2); margin: 0; line-height: 1.7; }
+    .author-block { display: flex; align-items: center; gap: 16px; margin-top: 64px; padding: 22px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; }
+    .author-avatar { width: 42px; height: 42px; border-radius: 50%; background: var(--accent-light, rgba(196,83,26,0.1)); border: 1px solid var(--accent); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12px; color: var(--accent); flex-shrink: 0; }
+    .author-info strong { font-size: 14px; color: var(--ink); font-weight: 500; display: block; margin-bottom: 3px; }
+    .author-info p { font-size: 13px; color: var(--ink2); font-weight: 300; line-height: 1.5; margin: 0 0 6px; }
+    .author-info a { color: var(--accent); text-decoration: none; font-family: var(--mono); font-size: 11px; }
+    .next-post { margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--border); }
+    .next-label { font-family: var(--mono); font-size: 10px; color: var(--ink3); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+    .next-post a { font-size: 15px; color: var(--ink); text-decoration: none; transition: color 0.15s; }
+    .next-post a:hover { color: var(--accent); }
+    @media (max-width: 600px) { .linkedin-banner { flex-direction: column; align-items: flex-start; } }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="../index.html" class="nav-logo">Muhammet YILDIZ</a>
+    <div class="nav-links">
+      <a href="../about.html">About</a>
+      <a href="../projects.html">Projects</a>
+      <a href="../writing.html" class="active">Writing</a>
+      <a href="../contact.html">Contact</a>
+    </div>
+    <div class="nav-actions">
+      <button class="nav-btn nav-theme" onclick="toggleTheme()"><span id="themeIcon">◑</span><span id="themeLabel" style="margin-left:4px">dark</span></button>
+      <a class="nav-btn" href="https://github.com/yldzmuhammed" target="_blank"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" stroke="currentColor" fill="none"/></svg></a>
+      <a class="nav-btn" href="https://linkedin.com/in/yldzmuhammed" target="_blank"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+      <a class="nav-btn" href="mailto:yldzmuhammed@gmail.com"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+    </div>
+  </nav>
+
+  <div class="page">
+    <div class="container-narrow">
+
+      <div class="post-header">
+        <a class="post-back" href="../writing.html">back to writing</a>
+        <div class="post-series-tag">IoT Fundamentals <span>·</span> Part 3 <span>·</span> also on LinkedIn</div>
+        <h1 class="post-title">The 90-Minute Spec</h1>
+        <p class="post-subtitle">How to extract what matters from a 300-page wireless standard without losing your mind or your afternoon.</p>
+        <div class="post-meta-row">
+          <span class="post-date">Mar 31, 2026</span>
+          <div class="meta-sep"></div>
+          <span class="post-read-time">10 min read</span>
+        </div>
+      </div>
+
+      <div class="linkedin-banner">
+        <p>A shorter version of this post is on LinkedIn. Follow along for the weekly series.</p>
+        <a href="https://linkedin.com/in/yldzmuhammed" target="_blank">follow on linkedin</a>
+      </div>
+
+      <div class="post-body">
+
+        <p>There is a moment every hardware product manager or embedded engineer hits. You are evaluating a wireless protocol and someone hands you the spec. Or more accurately, you download a PDF from a standards body website after agreeing to terms you did not read.</p>
+
+        <p>The document is 300 pages. Sometimes 600. The table of contents looks like a legal filing. There are acronyms you have never seen nested inside acronyms you thought you understood. Layer diagrams assume you already know what a layer is. References point to other specs that are equally dense.</p>
+
+        <p>Most people respond in one of two ways.</p>
+
+        <p>The completionist sits down with coffee and reads from page one. By page 40, they are lost in PHY layer modulation details that will not matter for their product decision. They either push through out of stubbornness and retain nothing, or quietly give up and never mention the spec again.</p>
+
+        <p>The avoider skips the spec entirely. They rely on blog posts, vendor datasheets, and marketing webinars. They end up with a shallow understanding built on someone else's interpretation, and they cannot tell when a vendor is stretching the truth because they have never seen the source numbers.</p>
+
+        <p>Both approaches fail. Here is what actually works.</p>
+
+        <h2>Start with chapter 1. Then skip to the back.</h2>
+
+        <p>Every standards document begins with a scope and overview section. It is usually 5 to 15 pages and it answers the most basic question: what is this protocol for? This section will tell you the intended use cases, the design philosophy, and the high-level architecture. It is written for humans, not parsers. Read it carefully. It will save you hours of confusion later because you will understand why certain design choices were made.</p>
+
+        <p>Then skip to the appendices and annexes.</p>
+
+        <p>This is counterintuitive, but the back of a spec is where the practical information lives. Default parameter values. Frequency allocation tables. Maximum and minimum values for configurable settings. Power consumption profiles measured under specific conditions. Message format summaries.</p>
+
+        <p>The appendices are the cheat sheet. The middle of the spec is the proof. You want the cheat sheet first.</p>
+
+        <p>In the LoRaWAN specification, the regional parameters appendix tells you exactly which frequencies, data rates, and duty cycles apply in your target market. That single appendix is more immediately useful for a product decision than the entire MAC layer chapter.</p>
+
+        <h2>Find the five numbers that matter</h2>
+
+        <p>For any wireless protocol evaluation, your product decision comes down to a handful of hard constraints. Before you get lost in the details, find these five numbers.</p>
+
+        <ol>
+          <li>
+            <strong>Range: the real link budget, not the marketing number</strong>
+            Every vendor will quote range in ideal conditions. The spec will give you transmit power, receiver sensitivity, and sometimes a link budget calculation. That is the starting point for your own estimate. Look for maximum transmit power in dBm, receiver sensitivity in dBm, and any duty cycle or listen-before-talk requirements that might limit when you can actually transmit. The marketing says 15 km. The spec says 154 dB link budget at SF12. Your building has concrete walls. Do the math yourself.
+          </li>
+          <li>
+            <strong>Data rate: application-layer throughput, not the PHY rate</strong>
+            The headline data rate is almost never what your application will see. Protocol overhead, headers, retransmissions, and MAC-layer timing all eat into the raw number. Look for maximum PHY data rate, maximum payload size per frame, and any fragmentation mechanisms. Then look for duty cycle limits or channel access rules that restrict how often you can transmit. BLE 5.0 advertises 2 Mbps at the PHY layer. After ATT protocol overhead, L2CAP headers, and connection interval constraints, your actual application throughput for a sensor reading might be a fraction of that.
+          </li>
+          <li>
+            <strong>Power: TX, RX, sleep, and the transitions between them</strong>
+            Battery life is almost always a critical constraint for IoT products. The spec will not give you a battery life estimate, but it will give you the building blocks. Look for current draw in transmit, receive, and sleep modes. Also look for how long state transitions take. Going from sleep to transmit is not instant, and that wake-up time consumes power too. The most useful table in any wireless spec is the one that lists current consumption by operating mode. Find it. Bookmark it.
+          </li>
+          <li>
+            <strong>Latency: from wanting to send to confirmed delivery</strong>
+            This is the number that gets overlooked until it becomes a problem. Latency in wireless protocols is rarely just the transmission time. It includes channel access delays, synchronization overhead, and sometimes mandatory quiet periods. In LoRaWAN, a Class A device can only receive data in two short windows after it transmits. If the server misses those windows, it has to wait until the device transmits again. For a soil moisture sensor that reports once per hour, that means downlink latency could be up to an hour. The spec defines this clearly, but it is a surprise if you only read the marketing materials.
+          </li>
+          <li>
+            <strong>Network topology: who talks to whom, and who is in charge</strong>
+            Star, mesh, tree, or peer-to-peer? Who coordinates access to the shared medium? What happens when a node drops out? Is there a single point of failure? Look for network architecture diagrams, coordinator and gateway roles, and any mesh routing protocols. Also look for network size limits: maximum number of nodes, maximum hops in a mesh, maximum depth of a tree.
+          </li>
+        </ol>
+
+        <p>If you can answer those five questions from the spec, you have enough to make a go or no-go decision for your product. Everything else is implementation detail.</p>
+
+        <h2>Learn the spec's vocabulary, not all of RF engineering</h2>
+
+        <p>Every protocol invents its own language. This is partly because standards committees love naming things, and partly because each protocol genuinely does have unique concepts that need unique names.</p>
+
+        <p>You do not need to understand the underlying signal processing or the decades of academic research behind these concepts. You need to understand what each term controls and what tradeoff it represents. As you read, keep a running glossary. Usually 10 to 15 terms is enough to unlock the rest of the document. Write each term with a one-sentence definition focused on the product implication, not the technical mechanism.</p>
+
+        <div class="glossary-item">
+          <div class="glossary-term">Spreading Factor (LoRaWAN)</div>
+          <p class="glossary-def">Higher SF means longer range but slower data rate and more airtime. Directly impacts battery life and channel utilization.</p>
+        </div>
+        <div class="glossary-item">
+          <div class="glossary-term">Connection Interval (BLE)</div>
+          <p class="glossary-def">How often two paired devices exchange data. Shorter means more responsive but higher power draw. Typically ranges from 7.5ms to 4 seconds.</p>
+        </div>
+        <div class="glossary-item">
+          <div class="glossary-term">Duty Cycle (EU regulatory)</div>
+          <p class="glossary-def">Maximum percentage of time you can transmit on a given frequency. Not a protocol choice: a legal requirement. 1% duty cycle means 36 seconds of TX per hour.</p>
+        </div>
+
+        <p>A glossary like this becomes your decoder ring. When you hit a dense paragraph later in the spec, you can parse it because you know what the words mean in practical terms.</p>
+
+        <h2>Read the security section with skepticism</h2>
+
+        <p>The security chapter of most wireless specs is one of the shortest. It is also one of the most important to read carefully and critically. Most specs describe security as supported. What you need to understand is the gap between supported and secure by default.</p>
+
+        <div class="security-questions">
+          <p>Is encryption mandatory or optional? If optional, assume some devices will ship without it. Plan accordingly.</p>
+          <p>What encryption algorithm is used? AES-128 is the floor for serious IoT applications. Anything less is a red flag.</p>
+          <p>Who manages the keys? Key management is where most IoT security falls apart. Look for whether keys are per-device or shared, how they are generated, and what happens if a key is compromised.</p>
+          <p>What happens at provisioning? The moment a device joins a network for the first time is often the most vulnerable. Is there a window where credentials are exchanged in the clear?</p>
+          <p>Is there replay protection? Can an attacker record a valid message and retransmit it later? Look for frame counters, nonces, or sequence numbers.</p>
+          <p>What is the update story? If a vulnerability is discovered in the protocol's security, how are fixes distributed to devices already in the field?</p>
+        </div>
+
+        <p>Do not trust the security section's self-assessment. "The protocol provides robust security" is marketing language that appears in specs. Read the mechanisms, not the adjectives.</p>
+
+        <h2>Understand the conformance and certification landscape</h2>
+
+        <p>This is the section most first-time spec readers skip, and it comes back to bite them six months into development. Most wireless standards come with a certification program. Wi-Fi has the Wi-Fi Alliance. Bluetooth has the Bluetooth SIG. LoRaWAN has the LoRa Alliance. Zigbee, Thread, and Matter have the CSA.</p>
+
+        <p>The spec usually defines conformance requirements: mandatory features that every compliant device must implement, and optional features that can be included for certification at a higher level. Certification costs money and time. Knowing the mandatory feature set tells you the minimum implementation effort. Some markets and customers require it. The optional features list tells you what the ecosystem considers table stakes versus nice-to-have. Skim the conformance chapter. Know what is mandatory. Budget for certification if your market requires it.</p>
+
+        <h2>Use the spec to ask better questions</h2>
+
+        <p>The goal of reading a spec at the evaluation stage is not to become a protocol expert. It is to develop enough fluency to have productive conversations with the people who are experts: your RF engineer, your module vendor, your antenna designer, your certification lab.</p>
+
+        <p>A product manager who has read the spec asks: "What spreading factor are you assuming for that range claim? What is the application-layer throughput at that SF, accounting for the 1% duty cycle in the EU band?"</p>
+
+        <p>A product manager who has not asks: "How far does it go?"</p>
+
+        <p>The first question gets a useful answer. The second gets a marketing number. When a module vendor says their chip supports a protocol, you want to know which version of the spec, which optional features, and what the certified profile is. These questions come naturally when you have spent time with the source document.</p>
+
+        <h2>A reading strategy you can use today</h2>
+
+        <div class="strategy-block">
+          <div class="step"><span class="step-time">15 min</span><div class="step-text"><strong>Read the overview chapter</strong>Understand the purpose and architecture. Download the actual standards document, not a vendor summary.</div></div>
+          <div class="step"><span class="step-time">20 min</span><div class="step-text"><strong>Jump to the appendices</strong>Find the key parameter tables. Screenshot or bookmark them.</div></div>
+          <div class="step"><span class="step-time">30 min</span><div class="step-text"><strong>Find the five numbers</strong>Range, data rate, power, latency, topology. You may need to dig into a few chapters.</div></div>
+          <div class="step"><span class="step-time">ongoing</span><div class="step-text"><strong>Build your glossary</strong>Start with 10 terms. Add as you go.</div></div>
+          <div class="step"><span class="step-time">15 min</span><div class="step-text"><strong>Read the security section</strong>Answer the six questions. Read mechanisms, not adjectives.</div></div>
+          <div class="step"><span class="step-time">10 min</span><div class="step-text"><strong>Skim the conformance section</strong>Know what is mandatory. Budget for certification if needed.</div></div>
+        </div>
+
+        <p>About 90 minutes for a first pass. That is a lot less than 300 pages front to back, and it gives you 80% of what you need for a product decision. You can always go deeper later. Once you have decided this is the protocol worth committing to, you will naturally dive into the MAC layer details, the coexistence mechanisms, the edge cases in the routing protocol. But that deeper reading will be guided by specific implementation questions, not a vague sense that you should understand this.</p>
+
+        <h2>The spec is a reference manual, not a textbook</h2>
+
+        <p>You do not read a dictionary front to back. You do not read a spec that way either.</p>
+
+        <p>Learn the index. Find the five numbers. Build the glossary. Read security with skepticism. Understand the certification landscape. Then put the spec on your shelf, within arm's reach but not on your daily reading list.</p>
+
+        <p>It is there when you need to settle a debate, verify a vendor's claim, or understand why your device is behaving unexpectedly at the boundary of its operating parameters. That is when the other 250 pages earn their keep.</p>
+
+        <p>The engineers who are dangerous, in the best sense, are not the ones who memorized the spec. They are the ones who know how to find the right page in under 30 seconds.</p>
+
+        <hr>
+
+        <div class="callout">
+          <p><strong>Next up:</strong> LoRaWAN deep dive, Part 1. How it actually works, starting at the system level, not the physical layer.</p>
+        </div>
+
+        <div class="author-block">
+          <div class="author-avatar">MY</div>
+          <div class="author-info">
+            <strong>Muhammet YILDIZ</strong>
+            <p>Principal Embedded Systems Engineer at Hum Industrial. Founder of Ameza. 15+ years shipping IoT hardware.</p>
+            <a href="https://linkedin.com/in/yldzmuhammed" target="_blank">linkedin</a>
+          </div>
+        </div>
+
+        <div class="next-post">
+          <p class="next-label">next post</p>
+          <a href="#">LoRaWAN: how it actually works — coming Apr 8, 2026</a>
+        </div>
+
+      </div>
+
+      <footer class="footer" style="padding: 32px 0; margin-top: 40px;">
+        <p>2026 Muhammet YILDIZ</p>
+        <div class="footer-links">
+          <a href="../writing.html">All posts</a>
+          <a href="../about.html">About</a>
+          <a href="../contact.html">Contact</a>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    const html = document.documentElement;
+    const icon = document.getElementById('themeIcon');
+    const label = document.getElementById('themeLabel');
+    function applyTheme(theme) {
+      html.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      icon.textContent = theme === 'dark' ? '○' : '◑';
+      label.textContent = theme === 'dark' ? 'light' : 'dark';
+    }
+    function toggleTheme() { applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); }
+    const saved = localStorage.getItem('theme');
+    if (saved) { applyTheme(saved); }
+    else if (window.matchMedia('(prefers-color-scheme: dark)').matches) { applyTheme('dark'); }
+  </script>
+</body>
+</html>
