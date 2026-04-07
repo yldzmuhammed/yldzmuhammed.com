@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LoRaWAN: How It Actually Works — Muhammet YILDIZ</title>
+  <meta name="description" content="LoRaWAN is not just a radio protocol. It is a full network architecture with classes, join procedures, adaptive data rates, and tradeoffs that only become visible in production."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/main.css"/>
+  <style>
+    .post-header { padding: 64px 0 40px; border-bottom: 1px solid var(--border); margin-bottom: 48px; }
+    .post-back { font-family: var(--mono); font-size: 11px; color: var(--ink3); text-decoration: none; letter-spacing: 0.04em; display: inline-flex; align-items: center; gap: 8px; margin-bottom: 32px; transition: color 0.15s; }
+    .post-back:hover { color: var(--ink); }
+    .post-series-tag { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+    .post-series-tag span { color: var(--ink3); }
+    .post-title { font-family: var(--serif); font-size: clamp(26px, 4vw, 40px); color: var(--ink); letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 16px; }
+    .post-subtitle { font-size: 16px; color: var(--ink2); font-weight: 300; line-height: 1.7; max-width: 560px; margin-bottom: 24px; }
+    .post-meta-row { display: flex; align-items: center; gap: 16px; }
+    .post-date { font-family: var(--mono); font-size: 11px; color: var(--ink3); }
+    .post-read-time { font-family: var(--mono); font-size: 11px; color: var(--ink3); }
+    .meta-sep { width: 3px; height: 3px; border-radius: 50%; background: var(--ink3); }
+    .linkedin-banner { display: flex; align-items: center; justify-content: space-between; gap: 16px; background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 4px; padding: 14px 18px; margin-bottom: 48px; }
+    .linkedin-banner p { font-family: var(--mono); font-size: 11px; color: var(--ink2); line-height: 1.5; }
+    .linkedin-banner a { font-family: var(--mono); font-size: 11px; color: var(--accent); text-decoration: none; white-space: nowrap; border: 1px solid var(--accent); padding: 5px 12px; border-radius: 3px; transition: all 0.15s; flex-shrink: 0; }
+    .post-body { max-width: 640px; }
+    .post-body p { font-size: 15px; color: var(--ink); font-weight: 300; line-height: 1.85; margin-bottom: 24px; }
+    .post-body h2 { font-family: var(--mono); font-size: 11px; font-weight: 500; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin: 48px 0 18px; }
+    .post-body strong { font-weight: 500; color: var(--ink); }
+    .post-body hr { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
+    .concept-block { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 22px 26px; margin: 20px 0; }
+    .concept-label { font-family: var(--mono); font-size: 10px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+    .concept-title { font-family: var(--serif); font-size: 17px; color: var(--ink); margin-bottom: 8px; }
+    .concept-body { font-size: 13px; color: var(--ink2); line-height: 1.7; font-weight: 300; margin: 0; }
+    .callout { background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 4px; padding: 20px 24px; margin: 32px 0; }
+    .callout p { font-size: 14px; color: var(--ink2); margin: 0; line-height: 1.7; }
+    .series-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 40px 0; }
+    .series-nav-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 14px 16px; text-decoration: none; transition: border-color 0.15s; }
+    .series-nav-item:hover { border-color: var(--ink3); }
+    .series-nav-label { font-family: var(--mono); font-size: 10px; color: var(--ink3); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 5px; }
+    .series-nav-title { font-size: 13px; color: var(--ink); line-height: 1.4; }
+    .author-block { display: flex; align-items: center; gap: 16px; margin-top: 64px; padding: 22px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; }
+    .author-avatar { width: 42px; height: 42px; border-radius: 50%; background: var(--accent-light, rgba(196,83,26,0.1)); border: 1px solid var(--accent); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12px; color: var(--accent); flex-shrink: 0; }
+    .author-info strong { font-size: 14px; color: var(--ink); font-weight: 500; display: block; margin-bottom: 3px; }
+    .author-info p { font-size: 13px; color: var(--ink2); font-weight: 300; line-height: 1.5; margin: 0 0 6px; }
+    .author-info a { color: var(--accent); text-decoration: none; font-family: var(--mono); font-size: 11px; }
+    .next-post { margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--border); }
+    .next-label { font-family: var(--mono); font-size: 10px; color: var(--ink3); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+    .next-post a { font-size: 15px; color: var(--ink); text-decoration: none; transition: color 0.15s; }
+    .next-post a:hover { color: var(--accent); }
+    @media (max-width: 600px) {
+      .linkedin-banner { flex-direction: column; align-items: flex-start; }
+      .series-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="../index.html" class="nav-logo">Muhammet YILDIZ</a>
+    <div class="nav-links">
+      <a href="../about.html">About</a>
+      <a href="../projects.html">Projects</a>
+      <a href="../writing.html" class="active">Writing</a>
+      <a href="../contact.html">Contact</a>
+    </div>
+    <div class="nav-actions">
+      <button class="nav-btn nav-theme" onclick="toggleTheme()"><span id="themeIcon">◑</span><span id="themeLabel" style="margin-left:4px">dark</span></button>
+      <a class="nav-btn" href="https://github.com/yldzmuhammed" target="_blank"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" stroke="currentColor" fill="none"/></svg></a>
+      <a class="nav-btn" href="https://linkedin.com/in/yldzmuhammed" target="_blank"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+      <a class="nav-btn" href="mailto:yldzmuhammed@gmail.com"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+    </div>
+  </nav>
+
+  <div class="page">
+    <div class="container-narrow">
+
+      <div class="post-header">
+        <a class="post-back" href="../writing.html">back to writing</a>
+        <div class="post-series-tag">LoRaWAN Series <span>·</span> Part 1 of 4 <span>·</span> also on LinkedIn</div>
+        <h1 class="post-title">LoRaWAN: how it actually works</h1>
+        <p class="post-subtitle">LoRaWAN is not just a radio protocol. It is a full network architecture with device classes, join procedures, and tradeoffs that only become visible when you deploy it in the real world.</p>
+        <div class="post-meta-row">
+          <span class="post-date">Apr 8, 2026</span>
+          <div class="meta-sep"></div>
+          <span class="post-read-time">9 min read</span>
+        </div>
+      </div>
+
+      <div class="linkedin-banner">
+        <p>A shorter version of this post is on LinkedIn. Follow along for the weekly series.</p>
+        <a href="https://linkedin.com/in/yldzmuhammed" target="_blank">follow on linkedin</a>
+      </div>
+
+      <div class="post-body">
+
+        <p>Most people who have heard of LoRaWAN think of it as a long-range radio technology. That is not wrong, but it is incomplete in a way that causes real problems when you try to build with it.</p>
+
+        <p>LoRa, the physical radio layer, is made by Semtech. It uses chirp spread spectrum modulation to achieve impressive range at very low power. That part is the radio chip on your PCB.</p>
+
+        <p>LoRaWAN is the network protocol built on top of LoRa. It defines how devices join a network, how data flows from device to cloud, how the network manages thousands of nodes, and how downlink messages get delivered to devices that spend most of their time asleep. It is the part that most documentation glosses over, and it is the part that determines whether your product actually works at scale.</p>
+
+        <p>I have been working with LoRaWAN since 2016, when the ecosystem was young enough that no production-ready network server existed. I wrote one from scratch. What follows is what I wish someone had explained to me at the start.</p>
+
+        <h2>The network architecture</h2>
+
+        <p>A LoRaWAN network has four layers. Understanding what each one does and where your responsibilities begin and end is the foundation of everything else.</p>
+
+        <div class="concept-block">
+          <div class="concept-label">Layer 1</div>
+          <div class="concept-title">End devices</div>
+          <p class="concept-body">The sensors, meters, or actuators in the field. They transmit data uplink to the network and occasionally receive downlink messages from it. Most end devices spend the vast majority of their time in deep sleep. They wake up, transmit, listen briefly for a downlink window, and go back to sleep. This is what makes the battery life possible.</p>
+        </div>
+
+        <div class="concept-block">
+          <div class="concept-label">Layer 2</div>
+          <div class="concept-title">Gateways</div>
+          <p class="concept-body">Gateways are radio bridges. They receive packets from end devices over LoRa and forward them to the network server over an IP backhaul, typically Ethernet, Wi-Fi, or cellular. Critically, gateways are transparent to the network. They do not process or decrypt the packets. They just forward them. This means a packet transmitted by a device can be received by multiple gateways simultaneously, and the network server handles the deduplication.</p>
+        </div>
+
+        <div class="concept-block">
+          <div class="concept-label">Layer 3</div>
+          <div class="concept-title">Network server</div>
+          <p class="concept-body">The network server is the brain of the LoRaWAN network. It handles device authentication, frame deduplication when multiple gateways receive the same packet, adaptive data rate management, and downlink scheduling. It also manages the receive windows: the brief periods after an uplink when a device listens for a downlink. Miss those windows and you have to wait for the next uplink cycle. This is the layer that most product teams underestimate until they are debugging a production deployment.</p>
+        </div>
+
+        <div class="concept-block">
+          <div class="concept-label">Layer 4</div>
+          <div class="concept-title">Application server</div>
+          <p class="concept-body">The application server receives decrypted payloads from the network server and does something useful with them: storing data, triggering alerts, feeding dashboards, integrating with other systems. This is where your business logic lives. The network server hands you the bytes. The application server figures out what they mean.</p>
+        </div>
+
+        <h2>How devices join the network</h2>
+
+        <p>Before a device can exchange data, it has to join the network. LoRaWAN supports two join methods.</p>
+
+        <p><strong>OTAA (Over-The-Air Activation)</strong> is the right way to do it. The device transmits a join request containing its unique identifier and a cryptographic key derived from the root keys provisioned at the factory. The network server validates this, derives session keys, and sends a join accept. From that point forward, all communication uses those session keys. If a device re-joins, new session keys are derived, which means compromised session keys do not permanently compromise the device.</p>
+
+        <p><strong>ABP (Activation By Personalization)</strong> hardcodes the session keys directly into the firmware. It is simpler to implement and avoids the join procedure overhead, but it is a security and operational problem. The session keys never rotate. Frame counters do not reset correctly across power cycles unless you handle it carefully. If your device ends up in someone's hands, those static keys are extractable. Avoid ABP in production unless you have a very specific reason for it.</p>
+
+        <h2>Device classes and the downlink problem</h2>
+
+        <p>This is the part that surprises most people building LoRaWAN products for the first time.</p>
+
+        <p>End devices are asleep most of the time. The network cannot send a downlink message to a device whenever it wants. It has to wait for the device to open a receive window, which only happens after the device transmits an uplink. This constraint shapes everything about how you design the communication pattern for your application.</p>
+
+        <p>LoRaWAN defines three device classes to handle different tradeoffs between power consumption and downlink latency.</p>
+
+        <div class="concept-block">
+          <div class="concept-label">Class A</div>
+          <div class="concept-title">Lowest power, highest downlink latency</div>
+          <p class="concept-body">Class A devices open two short receive windows after every uplink transmission. If the network server wants to send a downlink, it must use one of those two windows. If it misses them both, it has to wait for the next uplink. For a water meter that transmits once per hour, that means downlink latency of up to one hour. For most sensor applications this is fine. For anything that needs responsive remote control it is not. Every LoRaWAN device must support Class A as the baseline.</p>
+        </div>
+
+        <div class="concept-block">
+          <div class="concept-label">Class B</div>
+          <div class="concept-title">Scheduled receive windows, predictable latency</div>
+          <p class="concept-body">Class B devices open additional receive windows at scheduled intervals, synchronized to the gateway beacon. This gives the network server predictable downlink slots without requiring the device to be always listening. The tradeoff is that the device must wake up periodically to synchronize with the beacon, which increases power consumption compared to Class A. Class B is useful when you need lower and more predictable downlink latency without going to always-on.</p>
+        </div>
+
+        <div class="concept-block">
+          <div class="concept-label">Class C</div>
+          <div class="concept-title">Always listening, lowest latency, highest power</div>
+          <p class="concept-body">Class C devices keep their receiver open continuously, except when transmitting. Downlink latency is near-zero. Power consumption is much higher. Class C makes sense for mains-powered devices or actuators where immediate response to a command matters more than battery life. A smart street light controller is a good Class C use case. A battery-powered sensor is not.</p>
+        </div>
+
+        <h2>Spreading factors and the range vs data rate tradeoff</h2>
+
+        <p>LoRa uses a spreading factor, SF7 through SF12, to trade data rate for range and noise immunity. This is one of the most misunderstood knobs in the protocol.</p>
+
+        <p>Think of it as a conversation volume dial. At SF7, you are talking at a normal volume: fast, efficient, but you need to be relatively close to be heard. At SF12, you are shouting slowly and deliberately: much further range and resistance to noise, but the transmission takes significantly longer and uses more airtime.</p>
+
+        <p>The airtime implications matter for two reasons. First, longer transmissions consume more battery. Second, LoRaWAN operates in unlicensed spectrum subject to duty cycle limits. In Europe, for example, most channels have a 1% duty cycle limit, meaning a device can only transmit for 36 seconds per hour on a given channel. A long SF12 transmission eats into that budget fast. At SF7 the same payload transmits roughly 50 times faster than at SF12.</p>
+
+        <p>Adaptive Data Rate (ADR) is the network server's mechanism for automatically adjusting the spreading factor based on link quality. Devices closer to the gateway get pushed to lower spreading factors to free up airtime for devices at the edge of coverage. When it works well, ADR optimizes the network automatically. When it is misconfigured or the device is mobile, it can cause more problems than it solves. For fixed installations, ADR is generally a good idea. For moving assets, think carefully before enabling it.</p>
+
+        <h2>What the network server actually does</h2>
+
+        <p>When I built the network server for the water meter project in 2016, I had to figure out all of this the hard way because there was no reference implementation to look at. The things that took the most time to get right were not the radio parts. They were the edge cases in the network protocol.</p>
+
+        <p>Frame counter management is one of them. LoRaWAN uses incrementing frame counters to prevent replay attacks. The network server rejects any frame with a counter lower than or equal to the last received counter. This sounds simple but creates a real problem: what happens when a device resets? Its frame counter resets to zero. The network server sees what looks like a replay attack and rejects the frames. If you do not handle this gracefully, your device goes silent after a reset and you have no idea why.</p>
+
+        <p>Deduplication is another one. A single uplink from a device might be received by three gateways simultaneously. The network server receives three copies of the same packet with the same frame counter. It needs to recognize them as duplicates, pick the best one based on signal quality, and forward only one to the application server. Get this wrong and your application sees triplicate data.</p>
+
+        <p>Downlink scheduling is the third. The Class A receive windows open exactly one second and two seconds after the uplink ends. The network server has to schedule the downlink transmission on the correct gateway, at the correct frequency, with the correct data rate, within that one-second window. Miss it and the device will not hear the response.</p>
+
+        <h2>The things that only become visible in production</h2>
+
+        <p>Reading the spec gives you the happy path. Deploying a network gives you everything else.</p>
+
+        <p>In dense urban deployments, interference from other LoRaWAN networks on the same channels is real. The protocol uses listen-before-talk in some regions and does not in others. Channel planning and gateway placement matter more than the spec suggests.</p>
+
+        <p>Gateway backhaul failures are invisible to end devices. If your gateway loses its internet connection, devices keep transmitting and hearing nothing back. They have no way to know the network is down. Your monitoring needs to track gateway connectivity independently of device connectivity.</p>
+
+        <p>Regional parameters are not optional knowledge. Frequency bands, channel plans, duty cycle limits, and maximum transmit powers are all region-specific. A device configured for EU868 will not work correctly deployed in the US915 band. This seems obvious but it catches teams who build and test in one region and ship to another.</p>
+
+        <p>LoRaWAN is one of the best tools available for wide-area, low-power IoT deployments. But it rewards the teams who understand what is actually happening at the network layer, not just the teams who got a sensor transmitting in a demo environment. The gap between those two things is where most production problems live.</p>
+
+        <hr>
+
+        <div class="series-nav">
+          <div class="series-nav-item">
+            <div class="series-nav-label">Next in series</div>
+            <div class="series-nav-title">LoRaWAN PCB design: antenna placement, RF layout, and what kills your range before the firmware runs</div>
+          </div>
+          <div class="series-nav-item">
+            <div class="series-nav-label">Coming later</div>
+            <div class="series-nav-title">LoRaWAN power consumption: real numbers, duty cycle math, and what the spec does not tell you</div>
+          </div>
+        </div>
+
+        <div class="callout">
+          <p><strong>This is Part 1 of 4.</strong> The next three Tuesdays cover PCB design, power consumption, and when to use LoRaWAN versus when to walk away.</p>
+        </div>
+
+        <div class="author-block">
+          <div class="author-avatar">MY</div>
+          <div class="author-info">
+            <strong>Muhammet YILDIZ</strong>
+            <p>Principal Embedded Systems Engineer at Hum Industrial. Founder of Ameza. 15+ years shipping IoT hardware.</p>
+            <a href="https://linkedin.com/in/yldzmuhammed" target="_blank">linkedin</a>
+          </div>
+        </div>
+
+        <div class="next-post">
+          <p class="next-label">next in this series</p>
+          <a href="#">LoRaWAN PCB design: antenna placement and RF layout — coming Apr 15, 2026</a>
+        </div>
+
+      </div>
+
+      <footer class="footer" style="padding: 32px 0; margin-top: 40px;">
+        <p>2026 Muhammet YILDIZ</p>
+        <div class="footer-links">
+          <a href="../writing.html">All posts</a>
+          <a href="../about.html">About</a>
+          <a href="../contact.html">Contact</a>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    const html = document.documentElement;
+    const icon = document.getElementById('themeIcon');
+    const label = document.getElementById('themeLabel');
+    function applyTheme(theme) {
+      html.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      icon.textContent = theme === 'dark' ? '○' : '◑';
+      label.textContent = theme === 'dark' ? 'light' : 'dark';
+    }
+    function toggleTheme() { applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); }
+    const saved = localStorage.getItem('theme');
+    if (saved) { applyTheme(saved); }
+    else if (window.matchMedia('(prefers-color-scheme: dark)').matches) { applyTheme('dark'); }
+  </script>
+</body>
+</html>
